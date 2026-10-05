@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<meta name="theme-color" content="#0a0d17">
+<title>AnimeVerse — Ultra Pro Max</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#07080f;--bg2:#0e1120;--bg3:#141829;--bg4:#1a1f33;
+  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.12);--border3:rgba(255,255,255,.18);
+  --text:#f0f3fa;--text2:#8b92b0;--text3:#b5bcd1;
+  --purple:#a855f7;--pink:#ec4899;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--cyan:#06b6d4;
+  --grad:linear-gradient(135deg,#a855f7,#ec4899);
+  --grad-gold:linear-gradient(135deg,#fbbf24,#f59e0b);
+  --grad-blue:linear-gradient(135deg,#3b82f6,#06b6d4);
+  --glass:rgba(20,24,41,.72);
+  --shadow:0 20px 60px -15px rgba(0,0,0,.9);
+  --shadow-hover:0 30px 70px -10px rgba(168,85,247,.35);
+  --radius:20px;
+}
+body.light{
+  --bg:#f5f7fc;--bg2:#ffffff;--bg3:#f0f2f8;--bg4:#e8ebf5;
+  --border:rgba(0,0,0,.06);--border2:rgba(0,0,0,.1);--border3:rgba(0,0,0,.15);
+  --text:#0a0d17;--text2:#6b7a94;--text3:#3a4a63;
+  --glass:rgba(255,255,255,.82);
+  --shadow:0 20px 60px -15px rgba(30,40,80,.15);
+}
+body.theme-blue{--purple:#3b82f6;--pink:#06b6d4;--grad:linear-gradient(135deg,#3b82f6,#06b6d4)}
+body.theme-green{--purple:#10b981;--pink:#059669;--grad:linear-gradient(135deg,#10b981,#059669)}
+body.theme-pink{--purple:#ec4899;--pink:#f43f5e;--grad:linear-gradient(135deg,#ec4899,#f43f5e)}
+body.theme-orange{--purple:#f97316;--pink:#ef4444;--grad:linear-gradient(135deg,#f97316,#ef4444)}
+body.theme-cyan{--purple:#06b6d4;--pink:#0891b2;--grad:linear-gradient(135deg,#06b6d4,#0891b2)}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;
+  min-height:100vh;overflow-x:hidden;
+  transition:background .4s,color .4s;
+  font-feature-settings:"cv02","cv03","cv04","cv11";
+}
+/* ANIMATED BACKGROUND */
+.bg-orbs{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.bg-orbs::before,.bg-orbs::after{
+  content:"";position:absolute;border-radius:50%;filter:blur(120px);opacity:.4;
+  animation:orbFloat 20s ease-in-out infinite;
+}
+.bg-orbs::before{width:600px;height:600px;background:radial-gradient(circle,var(--purple),transparent 70%);top:-200px;left:-100px}
+.bg-orbs::after{width:500px;height:500px;background:radial-gradient(circle,var(--pink),transparent 70%);bottom:-150px;right:-100px;animation-delay:-10s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(80px,-60px) scale(1.1)}66%{transform:translate(-60px,80px) scale(.9)}}
+body.light .bg-orbs::before,body.light .bg-orbs::after{opacity:.25}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--grad);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--pink)}
+
+/* CONTAINER */
+.container{max-width:1440px;margin:0 auto;padding:16px}
+
+/* SKELETON */
+.skeleton{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ============ AUTH ============ */
+.auth-screen{
+  position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:rgba(7,8,15,.95);backdrop-filter:blur(20px);
+  overflow-y:auto;opacity:0;visibility:hidden;transition:all .4s;
+}
+.auth-screen.show{opacity:1;visibility:visible}
+body.light .auth-screen{background:rgba(245,247,252,.95)}
+.auth-card{
+  width:100%;max-width:460px;background:var(--glass);backdrop-filter:blur(30px);
+  border:1px solid var(--border2);border-radius:28px;padding:40px 36px;
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.8);
+  animation:authPop .6s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes authPop{from{opacity:0;transform:translateY(40px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.auth-brand{text-align:center;margin-bottom:32px}
+.auth-brand .logo-icon{
+  width:70px;height:70px;margin:0 auto 16px;border-radius:22px;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  font-size:2rem;color:#fff;box-shadow:0 15px 40px -10px var(--purple);
+  animation:logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse{0%,100%{transform:scale(1);box-shadow:0 15px 40px -10px var(--purple)}50%{transform:scale(1.06);box-shadow:0 20px 50px -8px var(--purple)}}
+.auth-brand h1{font-family:'Space Grotesk';font-size:2rem;font-weight:700;letter-spacing:-1px;margin-bottom:6px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.auth-brand p{color:var(--text2);font-size:.88rem}
+.auth-tabs{display:flex;background:var(--bg3);border-radius:14px;padding:5px;margin-bottom:26px;position:relative}
+.auth-tabs .glider{position:absolute;top:5px;bottom:5px;width:calc(50% - 5px);background:var(--grad);border-radius:10px;transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:1}
+.auth-tabs.signup-mode .glider{transform:translateX(100%)}
+.auth-tab{flex:1;padding:12px;border:none;background:none;color:var(--text2);font-weight:600;font-size:.88rem;cursor:pointer;border-radius:10px;font-family:inherit;position:relative;z-index:2;transition:color .3s}
+.auth-tab.active{color:#fff}
+.auth-form{display:none;animation:fadeSlide .35s ease}
+.auth-form.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateX(15px)}to{opacity:1;transform:translateX(0)}}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.75rem;font-weight:600;margin-bottom:8px;color:var(--text3);letter-spacing:.3px}
+.field-wrap{position:relative}
+.field-wrap>i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text2);font-size:.9rem;pointer-events:none;transition:color .3s}
+.field input{
+  width:100%;padding:14px 44px;background:var(--bg3);border:1.5px solid transparent;
+  color:var(--text);font-size:.92rem;border-radius:14px;font-family:inherit;outline:none;
+  transition:all .3s;
+}
+.field input:focus{border-color:var(--purple);background:var(--bg2);box-shadow:0 0 0 4px rgba(168,85,247,.12)}
+.field input:focus~i{color:var(--purple)}
+.field input.error{border-color:var(--red);animation:shakeX .4s}
+@keyframes shakeX{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.field .toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text2);cursor:pointer;background:none;border:none;font-size:.95rem;padding:4px}
+.field .toggle-pw:hover{color:var(--purple)}
+.err{color:var(--red);font-size:.75rem;margin-top:6px;display:none;align-items:center;gap:5px}
+.err.show{display:flex}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 24px;border-radius:14px;border:none;font-family:inherit;
+  font-weight:700;font-size:.92rem;cursor:pointer;transition:all .3s;
+  letter-spacing:-.2px;position:relative;overflow:hidden;
+}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 30px -8px var(--purple)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 15px 40px -8px var(--purple)}
+.btn-primary:active{transform:translateY(0)}
+.btn-block{width:100%;margin-top:10px}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%);transition:transform .6s}
+.btn:hover::before{transform:translateX(100%)}
+.auth-foot{text-align:center;margin-top:22px;font-size:.84rem;color:var(--text2)}
+.auth-foot a{color:var(--purple);font-weight:600;cursor:pointer;text-decoration:none}
+.auth-foot a:hover{text-decoration:underline}
+
+/* ============ TOP BAR ============ */
+.topbar{
+  position:sticky;top:12px;z-index:900;margin-bottom:20px;
+  background:var(--glass);backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid var(--border2);border-radius:22px;
+  padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  box-shadow:0 10px 40px -10px rgba(0,0,0,.5);
+  transition:transform .3s;
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:800;font-size:1.35rem;letter-spacing:-.7px;cursor:pointer;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;transition:transform .3s}
+.brand:hover{transform:scale(1.03)}
+.brand-icon{width:36px;height:36px;border-radius:11px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;box-shadow:0 6px 20px -5px var(--purple)}
+
+.widgets{display:flex;gap:8px}
+.widget{
+  display:flex;align-items:center;gap:8px;background:var(--bg3);
+  padding:7px 14px;border-radius:40px;border:1px solid var(--border2);
+  transition:all .3s;cursor:default;
+}
+.widget:hover{border-color:var(--purple);transform:translateY(-1px)}
+.widget i{font-size:1.1rem;color:var(--gold)}
+.widget .txt{display:flex;flex-direction:column;line-height:1.15}
+.widget .lbl{font-size:.58rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.widget .val{font-size:.85rem;font-weight:700}
+.widget .sub{font-size:.58rem;color:var(--text2)}
+
+.spacer{flex:1}
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.search{
+  position:relative;display:flex;align-items:center;
+}
+.search input{
+  background:var(--bg3);border:1.5px solid transparent;color:var(--text);
+  padding:10px 40px 10px 16px;border-radius:40px;font-size:.85rem;width:200px;
+  font-family:inherit;outline:none;transition:all .3s;
+}
+.search input:focus{width:260px;border-color:var(--purple);background:var(--bg2);box-shadow:0 0 0 4px rgba(168,85,247,.12)}
+.search i{position:absolute;right:16px;color:var(--text2);font-size:.88rem;pointer-events:none}
+
+.icon-btn{
+  width:42px;height:42px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;transition:all .3s;position:relative;
+}
+.icon-btn:hover{background:var(--grad);color:#fff;border-color:transparent;transform:translateY(-2px);box-shadow:0 8px 20px -6px var(--purple)}
+.icon-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--bg2);animation:pulseDot 2s infinite}
+@keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+
+/* Profile */
+.profile{position:relative}
+.profile-btn{
+  display:flex;align-items:center;gap:8px;background:var(--grad);border:none;color:#fff;
+  padding:5px 12px 5px 5px;border-radius:50px;cursor:pointer;font-weight:600;font-size:.82rem;
+  font-family:inherit;transition:all .3s;box-shadow:0 6px 18px -6px var(--purple);
+}
+.profile-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px -6px var(--purple)}
+.avatar{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--purple);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.chip{font-size:.55rem;padding:2px 6px;border-radius:20px;font-weight:800;letter-spacing:.4px}
+.chip.vip{background:var(--gold);color:#422006}
+.chip.admin{background:var(--red);color:#fff}
+
+.dropdown{
+  position:absolute;top:calc(100% + 12px);right:0;background:var(--bg2);
+  border:1px solid var(--border2);border-radius:20px;width:300px;
+  box-shadow:var(--shadow);opacity:0;visibility:hidden;
+  transform:translateY(-10px) scale(.95);transform-origin:top right;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:1000;overflow:hidden;
+}
+.dropdown.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.dd-head{
+  padding:16px;background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(236,72,153,.18));
+  display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);
+}
+.dd-av{width:52px;height:52px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:800;color:#fff;overflow:hidden;flex-shrink:0}
+.dd-av img{width:100%;height:100%;object-fit:cover}
+.dd-info{min-width:0}
+.dd-info h4{font-size:.92rem;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dd-info p{font-size:.7rem;color:var(--text2)}
+.dd-menu{padding:6px;max-height:400px;overflow-y:auto}
+.dd-item{
+  display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;
+  cursor:pointer;font-size:.86rem;color:var(--text3);background:none;border:none;
+  width:100%;text-align:left;font-family:inherit;transition:all .2s;
+}
+.dd-item:hover{background:var(--bg3);color:var(--text);transform:translateX(3px)}
+.dd-item i{width:18px;color:var(--purple);font-size:.9rem}
+.dd-item.vip{background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(245,158,11,.12));color:var(--gold);font-weight:700}
+.dd-item.vip i{color:var(--gold)}
+.dd-item.admin{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(220,38,38,.12));color:var(--red);font-weight:700}
+.dd-item.admin i{color:var(--red)}
+.dd-item .badge{margin-left:auto;background:var(--red);color:#fff;font-size:.58rem;padding:2px 7px;border-radius:20px;font-weight:800}
+.dd-sep{height:1px;background:var(--border);margin:5px 10px}
+.dd-item.danger i{color:var(--red)}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;height:440px;border-radius:28px;overflow:hidden;
+  margin-bottom:32px;background:var(--bg2);border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+.hero-slide{
+  position:absolute;inset:0;opacity:0;transition:opacity .8s ease;
+  display:flex;align-items:center;padding:50px;overflow:hidden;
+}
+.hero-slide.active{opacity:1;z-index:2}
+.hero-slide .bg{
+  position:absolute;inset:0;z-index:0;opacity:.35;
+}
+.hero-slide .bg::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--bg2) 15%,transparent 70%);
+}
+.hero-content{position:relative;z-index:3;max-width:600px}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;background:rgba(168,85,247,.15);
+  border:1px solid rgba(168,85,247,.4);color:var(--purple);padding:6px 14px;
+  border-radius:40px;font-size:.72rem;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;margin-bottom:16px;backdrop-filter:blur(10px);
+}
+.hero h1{
+  font-family:'Space Grotesk';font-size:clamp(1.7rem,4.5vw,2.8rem);
+  font-weight:700;line-height:1.1;margin-bottom:16px;letter-spacing:-1.5px;
+}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:.98rem;color:var(--text2);margin-bottom:26px;max-width:500px;line-height:1.6}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.hero-btns .btn{padding:12px 24px;font-size:.88rem}
+.btn-ghost{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--border2);backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:var(--bg3);border-color:var(--purple);color:var(--purple)}
+.btn-gold{background:var(--grad-gold);color:#422006;box-shadow:0 10px 30px -8px rgba(251,191,36,.6)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 15px 40px -8px rgba(251,191,36,.7)}
+.hero-dots{
+  position:absolute;bottom:22px;left:50px;display:flex;gap:8px;z-index:10;
+}
+.hero-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .4s}
+.hero-dots span.active{width:32px;border-radius:10px;background:var(--grad)}
+
+/* ============ CONTINUE ============ */
+.continue{
+  background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(5,150,105,.12));
+  border:1px solid rgba(16,185,129,.35);border-radius:20px;
+  padding:16px 22px;margin-bottom:26px;display:none;
+  align-items:center;gap:16px;flex-wrap:wrap;
+  backdrop-filter:blur(10px);
+}
+.continue.show{display:flex;animation:slideUp .4s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.continue i.big{font-size:2rem;color:var(--green)}
+.continue .info{flex:1;min-width:180px}
+.continue h4{font-size:1rem;font-weight:700;margin-bottom:3px}
+.continue p{font-size:.78rem;color:var(--text2)}
+
+/* ============ TABS ============ */
+.main-tabs{display:flex;gap:8px;margin-bottom:22px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.main-tabs::-webkit-scrollbar{display:none}
+.mtab{
+  padding:10px 20px;border-radius:40px;background:var(--bg2);border:1px solid var(--border2);
+  color:var(--text2);font-size:.85rem;cursor:pointer;font-family:inherit;font-weight:600;
+  white-space:nowrap;display:flex;align-items:center;gap:8px;transition:all .3s;
+}
+.mtab:hover{border-color:var(--purple);color:var(--purple);transform:translateY(-1px)}
+.mtab.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 8px 25px -8px var(--purple)}
+
+/* ============ FILTERS ============ */
+.filters{
+  background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);
+  border-radius:20px;padding:16px;margin-bottom:24px;
+  display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+}
+.filters>div{display:flex;flex-direction:column}
+.filters label{font-size:.7rem;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.filters select,.filters input{
+  background:var(--bg3);border:1.5px solid transparent;color:var(--text);
+  padding:10px 12px;border-radius:11px;font-family:inherit;font-size:.85rem;
+  outline:none;transition:all .3s;cursor:pointer;
+}
+.filters select:focus,.filters input:focus{border-color:var(--purple);background:var(--bg2)}
+
+/* ============ SECTION ============ */
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin:26px 0 20px;flex-wrap:wrap;gap:14px}
+.sec-title{font-family:'Space Grotesk';font-size:1.5rem;font-weight:700;display:flex;align-items:center;gap:12px;letter-spacing:-.5px}
+.sec-title i{color:var(--pink);font-size:1.3rem}
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.ftab{
+  padding:8px 16px;border-radius:40px;background:var(--bg2);border:1px solid var(--border2);
+  color:var(--text2);font-size:.78rem;cursor:pointer;font-family:inherit;font-weight:600;
+  transition:all .25s;
+}
+.ftab:hover{border-color:var(--purple);color:var(--purple)}
+.ftab.active{background:var(--grad);color:#fff;border-color:transparent}
+
+/* ============ ANIME GRID ============ */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px;margin-bottom:60px;min-height:300px}
+.card{
+  background:var(--bg2);border-radius:20px;overflow:hidden;border:1px solid var(--border);
+  cursor:pointer;position:relative;transition:all .4s cubic-bezier(.34,1.56,.64,1);
+  animation:cardIn .5s ease backwards;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.card:hover{transform:translateY(-10px) scale(1.02);box-shadow:var(--shadow-hover);border-color:var(--purple)}
+.poster{position:relative;aspect-ratio:2/3;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:4.5rem;background:var(--bg3)}
+.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s;z-index:1}
+.card:hover .poster img{transform:scale(1.1)}
+.poster .ph-icon{color:#fff;filter:drop-shadow(0 4px 12px rgba(0,0,0,.6));z-index:0;transition:transform .5s}
+.card:hover .poster .ph-icon{transform:scale(1.1) rotate(-5deg)}
+.g1{background:linear-gradient(145deg,#2d1b4e,#5b2c8c)}
+.g2{background:linear-gradient(145deg,#4e3520,#8b6f47)}
+.g3{background:linear-gradient(145deg,#1b4e35,#2d8b5e)}
+.g4{background:linear-gradient(145deg,#4e1b35,#8b2d63)}
+.g5{background:linear-gradient(145deg,#1b354e,#2d5e8b)}
+.g6{background:linear-gradient(145deg,#4e2020,#8b3535)}
+.g7{background:linear-gradient(145deg,#3a1b4e,#6e2d8b)}
+.g8{background:linear-gradient(145deg,#1b4e4e,#2d8b8b)}
+.g9{background:linear-gradient(145deg,#4e4e1b,#8b8b2d)}
+.card .badge{position:absolute;top:11px;left:11px;font-size:.6rem;font-weight:800;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;z-index:4;color:#fff;backdrop-filter:blur(8px)}
+.badge.hot{background:linear-gradient(135deg,#ec4899,#f43f5e)}
+.badge.new{background:linear-gradient(135deg,#10b981,#059669)}
+.badge.vip{background:var(--grad-gold);color:#422006}
+.badge.season{left:auto;right:11px;background:rgba(59,130,246,.9);backdrop-filter:blur(8px)}
+.card .rating{position:absolute;top:11px;right:11px;background:rgba(5,8,15,.85);backdrop-filter:blur(8px);color:var(--gold);font-size:.7rem;font-weight:800;padding:4px 8px;border-radius:20px;z-index:4;display:flex;align-items:center;gap:3px}
+.card .rating.below{top:42px}
+.lock{position:absolute;inset:0;background:rgba(5,8,15,.8);backdrop-filter:blur(8px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--gold);z-index:5}
+.card.locked .lock{display:flex}
+.lock i{font-size:2.4rem;animation:lockShake 3s ease-in-out infinite}
+@keyframes lockShake{0%,100%{transform:rotate(0)}45%,55%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+.lock span{font-size:.65rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+.play-hover{position:absolute;inset:0;background:linear-gradient(0deg,rgba(168,85,247,.5),transparent);opacity:0;transition:opacity .3s;z-index:2;display:flex;align-items:center;justify-content:center}
+.card:hover .play-hover{opacity:1}
+.play-hover i{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.95);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:1.4rem;transform:scale(.5);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.card:hover .play-hover i{transform:scale(1)}
+.card .info{padding:14px}
+.card .title{font-size:.98rem;font-weight:700;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.3px}
+.card .meta{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;color:var(--text2);margin-bottom:12px}
+.genres{display:flex;gap:4px;flex-wrap:wrap}
+.genres span{background:var(--bg3);padding:2px 8px;border-radius:10px;font-size:.62rem;font-weight:600}
+.card-acts{display:flex;gap:6px}
+.btn-play-mini{flex:1;padding:9px;border-radius:11px;border:none;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .25s}
+.btn-play-mini:hover{transform:translateY(-2px);box-shadow:0 8px 20px -6px var(--purple)}
+.btn-fav{width:36px;height:36px;border-radius:11px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:all .25s}
+.btn-fav:hover{background:rgba(236,72,153,.15);color:var(--pink);border-color:var(--pink)}
+.btn-fav.active{background:var(--pink);color:#fff;border-color:var(--pink);animation:heartPop .35s}
+@keyframes heartPop{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--text2)}
+.empty i{font-size:3.5rem;opacity:.3;margin-bottom:15px;display:block}
+.empty p{font-size:1.05rem;font-weight:500}
+
+/* ============ MODAL ============ */
+.overlay{
+  position:fixed;inset:0;background:rgba(5,8,15,.9);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;z-index:2000;
+  opacity:0;visibility:hidden;transition:all .35s;padding:16px;overflow-y:auto;
+}
+.overlay.open{opacity:1;visibility:visible}
+.modal{
+  background:var(--bg2);border-radius:26px;max-width:960px;width:100%;
+  max-height:92vh;overflow-y:auto;border:1px solid var(--border2);
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.9);
+  transform:scale(.92) translateY(20px);transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  position:relative;margin:auto;
+}
+.overlay.open .modal{transform:scale(1) translateY(0)}
+.close{
+  position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid var(--border2);
+  color:#fff;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;
+  transition:all .3s;z-index:50;
+}
+.close:hover{background:var(--red);color:#fff;transform:rotate(90deg) scale(1.1)}
+
+/* VIP */
+.vip-head{text-align:center;padding:44px 30px 24px;background:linear-gradient(180deg,rgba(251,191,36,.12),transparent);border-radius:26px 26px 0 0;position:relative;overflow:hidden}
+.vip-head::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(251,191,36,.25),transparent 70%);pointer-events:none}
+.vip-head .crown{font-size:4rem;background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;animation:float 2s ease-in-out infinite;position:relative;z-index:2;filter:drop-shadow(0 10px 30px rgba(251,191,36,.5))}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.vip-head h2{font-family:'Space Grotesk';font-size:2rem;font-weight:800;margin:12px 0 8px;background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:2}
+.vip-head p{color:var(--text2);font-size:.9rem;position:relative;z-index:2}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:20px 24px 32px}
+.plan{
+  background:var(--bg3);border:2px solid var(--border);border-radius:22px;
+  padding:26px 20px;text-align:center;position:relative;transition:all .35s;
+}
+.plan:hover{border-color:var(--purple);transform:translateY(-6px)}
+.plan.popular{border-color:var(--gold);background:linear-gradient(180deg,rgba(251,191,36,.08),var(--bg3))}
+.plan.popular:hover{border-color:var(--gold);box-shadow:0 20px 40px -15px rgba(251,191,36,.4)}
+.plan .pop-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--grad-gold);color:#422006;padding:5px 14px;border-radius:20px;font-size:.6rem;font-weight:900;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.plan-icon{font-size:2.4rem;margin-bottom:14px;color:var(--purple);display:block;transition:transform .3s}
+.plan:hover .plan-icon{transform:scale(1.15) rotate(-5deg)}
+.plan.popular .plan-icon{color:var(--gold)}
+.plan h3{font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.plan .price{font-family:'Space Grotesk';font-size:2rem;font-weight:800;margin:12px 0 4px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px}
+.plan.popular .price{background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.plan .period{font-size:.75rem;color:var(--text2);margin-bottom:18px}
+.plan ul{list-style:none;text-align:left;margin:16px 0 22px;font-size:.82rem}
+.plan li{padding:6px 0;display:flex;align-items:center;gap:9px;color:var(--text3)}
+.plan li i{color:var(--green);flex-shrink:0;font-size:.8rem}
+.plan li.off{color:var(--text2);text-decoration:line-through;opacity:.5}
+.plan li.off i{color:var(--red)}
+.btn-plan{width:100%;padding:13px;border-radius:13px;border:none;font-weight:800;font-size:.88rem;cursor:pointer;font-family:inherit;background:var(--grad);color:#fff;transition:all .3s;letter-spacing:-.2px}
+.btn-plan:hover{transform:translateY(-2px);box-shadow:0 10px 25px -8px var(--purple)}
+.plan.popular .btn-plan{background:var(--grad-gold);color:#422006}
+.plan.popular .btn-plan:hover{box-shadow:0 10px 25px -8px rgba(251,191,36,.6)}
+
+/* DETAIL */
+.detail-hero{padding:40px 32px 30px;background:linear-gradient(135deg,rgba(168,85,247,.28),rgba(236,72,153,.16));border-radius:26px 26px 0 0;position:relative;overflow:hidden}
+.detail-hero::before{content:"";position:absolute;top:-100px;right:-80px;width:350px;height:350px;background:radial-gradient(circle,rgba(251,191,36,.22),transparent 70%);pointer-events:none}
+.detail-hero .d-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(251,191,36,.2);color:var(--gold);padding:5px 13px;border-radius:20px;font-size:.68rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:14px;position:relative;z-index:2}
+.detail-hero h2{font-family:'Space Grotesk';font-size:clamp(1.4rem,3vw,2rem);font-weight:800;margin-bottom:14px;letter-spacing:-.8px;position:relative;z-index:2;line-height:1.2}
+.detail-meta{display:flex;gap:18px;flex-wrap:wrap;font-size:.85rem;color:var(--text3);position:relative;z-index:2}
+.detail-meta span{display:flex;align-items:center;gap:6px}
+.detail-meta i{color:var(--gold)}
+.detail-body{padding:26px 30px 30px}
+.dtabs{display:flex;gap:6px;margin-bottom:22px;border-bottom:1px solid var(--border);overflow-x:auto;padding-bottom:0}
+.dtabs button{padding:11px 18px;background:none;border:none;color:var(--text2);cursor:pointer;font-family:inherit;font-weight:700;font-size:.84rem;border-bottom:2px solid transparent;transition:all .3s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.dtabs button:hover{color:var(--text)}
+.dtabs button.active{color:var(--purple);border-color:var(--purple)}
+.dpanel{display:none;animation:fadeIn .35s}
+.dpanel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.dpanel h3{font-size:1.05rem;font-weight:800;margin:20px 0 12px;display:flex;align-items:center;gap:9px;letter-spacing:-.3px}
+.dpanel h3 i{color:var(--purple);font-size:1rem}
+.dpanel p{color:var(--text2);font-size:.9rem;line-height:1.75;margin-bottom:16px}
+.eps{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:9px;margin:15px 0}
+.ep{background:var(--bg3);border:1.5px solid var(--border2);border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:.8rem;font-weight:700;color:var(--text3);transition:all .25s;position:relative}
+.ep:hover{border-color:var(--purple);background:rgba(168,85,247,.1);color:var(--purple);transform:translateY(-2px)}
+.ep.watched{border-color:var(--green);color:var(--green)}
+.ep.watched::after{content:"✓";position:absolute;top:3px;right:7px;color:var(--green);font-weight:900;font-size:.75rem}
+.ep.vip-ep::after{content:"VIP";position:absolute;top:3px;right:5px;background:var(--gold);color:#422006;font-size:.5rem;padding:1px 5px;border-radius:8px;font-weight:900}
+.ep.vip-ep.watched::after{content:"✓";background:none;color:var(--green);padding:0;font-size:.75rem}
+.stars{display:flex;gap:6px;cursor:pointer;margin-bottom:8px}
+.stars i{font-size:1.7rem;color:var(--border3);transition:all .2s}
+.stars i.active,.stars i.hover{color:var(--gold);transform:scale(1.15)}
+.d-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.d-actions .btn{flex:1;min-width:130px;padding:12px;font-size:.85rem}
+.btn-icon-only{padding:12px 14px !important;min-width:auto !important;flex:0 !important}
+
+/* Seasons */
+.seasons{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-bottom:20px}
+.season{background:var(--bg3);border:2px solid var(--border2);border-radius:14px;padding:14px;cursor:pointer;transition:all .3s;position:relative}
+.season:hover{border-color:var(--purple);transform:translateY(-3px)}
+.season.current{border-color:var(--gold);background:linear-gradient(135deg,rgba(251,191,36,.1),var(--bg3))}
+.season .thumb{aspect-ratio:16/9;background:var(--bg2);border-radius:10px;overflow:hidden;margin-bottom:10px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff}
+.season .thumb img{width:100%;height:100%;object-fit:cover}
+.season h4{font-size:.88rem;font-weight:800;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.season p{font-size:.7rem;color:var(--text2)}
+.season .cur-tag{position:absolute;top:8px;right:8px;background:var(--gold);color:#422006;font-size:.55rem;padding:2px 7px;border-radius:10px;font-weight:900}
+
+/* Comments */
+.cmts{display:grid;gap:10px;margin-top:15px}
+.cmt{background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:14px;transition:all .25s}
+.cmt:hover{border-color:var(--border3)}
+.cmt-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cmt-av{width:36px;height:36px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.82rem;flex-shrink:0}
+.cmt-user{font-weight:700;font-size:.85rem}
+.cmt-time{font-size:.68rem;color:var(--text2)}
+.cmt-text{font-size:.86rem;color:var(--text3);line-height:1.55}
+.cmt-acts{display:flex;gap:10px;margin-top:10px;font-size:.76rem;color:var(--text2)}
+.cmt-acts button{background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:8px;transition:all .2s}
+.cmt-acts button:hover{background:var(--bg2);color:var(--purple)}
+.cmt-acts button.active{color:var(--purple);font-weight:700}
+.cmt-input{display:flex;gap:9px;margin-top:15px;align-items:flex-end}
+.cmt-input textarea{flex:1;background:var(--bg3);border:1.5px solid var(--border2);color:var(--text);padding:12px;border-radius:12px;font-family:inherit;font-size:.86rem;resize:vertical;min-height:55px;outline:none;transition:border-color .3s}
+.cmt-input textarea:focus{border-color:var(--purple)}
+.cmt-input button{padding:12px 18px;border-radius:12px;background:var(--grad);color:#fff;border:none;cursor:pointer;font-family:inherit;font-weight:700;align-self:flex-end;transition:all .25s}
+.cmt-input button:hover{transform:translateY(-2px);box-shadow:0 8px 20px -6px var(--purple)}
+
+/* Characters */
+.chars{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.char{text-align:center;background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:14px;transition:all .3s}
+.char:hover{border-color:var(--purple);transform:translateY(-3px)}
+.char-av{width:70px;height:70px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.9rem;color:#fff;margin:0 auto 10px}
+.char h4{font-size:.84rem;font-weight:700;margin-bottom:2px}
+.char p{font-size:.7rem;color:var(--text2)}
+
+/* Gallery */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gal img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;cursor:pointer;transition:transform .3s}
+.gal img:hover{transform:scale(1.05)}
+
+/* ============ PLAYER ============ */
+.player-modal .modal{max-width:1100px;padding:0;overflow:hidden;background:#000;border-radius:20px}
+.player-wrap{aspect-ratio:16/9;background:#000;position:relative;overflow:hidden}
+.player-wrap iframe{width:100%;height:100%;border:none;display:block}
+.player-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#fff;text-align:center;padding:30px}
+.player-empty i{font-size:4rem;margin-bottom:18px;opacity:.5}
+.player-empty h3{font-size:1.2rem;margin-bottom:8px}
+.player-empty p{font-size:.85rem;color:#8b92b0}
+.player-bar{background:var(--bg2);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--border)}
+.player-bar .pinfo{display:flex;flex-direction:column;min-width:0}
+.player-bar .pinfo h4{font-size:.92rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-bar .pinfo span{font-size:.72rem;color:var(--text2)}
+.player-bar select{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:7px 12px;border-radius:10px;font-family:inherit;font-size:.8rem;outline:none;cursor:pointer}
+.skip-op{position:absolute;bottom:80px;right:24px;background:rgba(0,0,0,.85);color:#fff;border:2px solid var(--purple);padding:11px 20px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.85rem;backdrop-filter:blur(10px);z-index:10;opacity:0;visibility:hidden;transition:all .3s}
+.skip-op.show{opacity:1;visibility:visible;animation:slideL .3s}
+@keyframes slideL{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ============ ADMIN ============ */
+.admin-modal .modal{max-width:1160px}
+.adm-head{text-align:center;padding:38px 30px 22px;background:linear-gradient(180deg,rgba(239,68,68,.15),transparent);border-radius:26px 26px 0 0}
+.adm-head i{font-size:3.4rem;color:var(--red);margin-bottom:10px;display:block;filter:drop-shadow(0 10px 30px rgba(239,68,68,.5))}
+.adm-head h2{font-family:'Space Grotesk';font-size:1.8rem;font-weight:800;letter-spacing:-.8px}
+.adm-head p{color:var(--text2);font-size:.88rem}
+.adm-tabs{display:flex;gap:6px;padding:18px 26px 0;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.adm-tab{padding:10px 16px;border-radius:12px 12px 0 0;border:none;background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;display:flex;align-items:center;gap:7px;transition:all .25s;border-bottom:2px solid transparent}
+.adm-tab:hover{color:var(--text)}
+.adm-tab.active{color:var(--purple);border-color:var(--purple)}
+.adm-body{padding:22px 26px 28px}
+.adm-panel{display:none}
+.adm-panel.active{display:block;animation:fadeIn .3s}
+.adm-form{display:grid;gap:15px}
+.row{display:grid;gap:15px}
+.row.c2{grid-template-columns:1fr 1fr}
+.row.c3{grid-template-columns:1fr 1fr 1fr}
+.row.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+.field-adm label{display:block;font-size:.74rem;font-weight:700;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+.field-adm input,.field-adm select,.field-adm textarea{
+  width:100%;padding:11px 13px;background:var(--bg3);border:1.5px solid transparent;
+  color:var(--text);border-radius:11px;font-family:inherit;font-size:.87rem;
+  outline:none;transition:all .3s;
+}
+.field-adm input:focus,.field-adm select:focus,.field-adm textarea:focus{border-color:var(--purple);background:var(--bg2)}
+.field-adm textarea{resize:vertical;min-height:80px;line-height:1.5}
+.field-adm .hint{font-size:.68rem;color:var(--text2);margin-top:5px}
+.check-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:11px;cursor:pointer;transition:all .25s}
+.check-row:hover{border-color:var(--purple)}
+.check-row input{width:18px;height:18px;accent-color:var(--purple);cursor:pointer;flex-shrink:0}
+.check-row label{font-weight:600;font-size:.85rem;cursor:pointer;color:var(--text3)}
+.btn-adm{width:100%;padding:13px;border-radius:13px;border:none;font-weight:800;font-size:.9rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .3s}
+.btn-adm.save{background:var(--grad);color:#fff;box-shadow:0 8px 25px -8px var(--purple)}
+.btn-adm.save:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px var(--purple)}
+.btn-adm.ghost{background:var(--bg3);color:var(--text3);border:1px solid var(--border2);max-width:130px}
+.btn-adm.ghost:hover{border-color:var(--purple);color:var(--purple)}
+
+.adm-list{display:grid;gap:10px;max-height:480px;overflow-y:auto;padding-right:5px}
+.adm-item{display:flex;gap:14px;padding:12px;background:var(--bg3);border:1px solid var(--border2);border-radius:14px;align-items:center;transition:all .25s}
+.adm-item:hover{border-color:var(--purple)}
+.adm-thumb{width:56px;height:76px;border-radius:10px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff}
+.adm-thumb img{width:100%;height:100%;object-fit:cover}
+.adm-info{flex:1;min-width:0}
+.adm-info h4{font-size:.92rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.adm-info p{font-size:.72rem;color:var(--text2)}
+.adm-acts{display:flex;gap:6px}
+.adm-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border2);background:var(--bg2);color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:all .25s}
+.adm-btn:hover{transform:translateY(-2px)}
+.adm-btn.edit:hover{background:var(--purple);color:#fff;border-color:var(--purple)}
+.adm-btn.del:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.adm-btn.season:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.adm-btn.ban{color:var(--red)}
+.adm-btn.unban{color:var(--green)}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:16px;text-align:center;transition:all .3s}
+.stat:hover{border-color:var(--purple);transform:translateY(-3px)}
+.stat .num{font-family:'Space Grotesk';font-size:1.7rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.stat .lbl{font-size:.68rem;color:var(--text2);text-transform:uppercase;letter-spacing:.7px;margin-top:6px;font-weight:700}
+
+/* ============ TOAST ============ */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(120px);
+  background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--purple);
+  color:var(--text);padding:14px 22px;border-radius:16px;font-weight:600;font-size:.88rem;
+  box-shadow:0 20px 50px -10px rgba(0,0,0,.7);z-index:3000;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+  display:flex;align-items:center;gap:10px;max-width:90vw;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast i{font-size:1.15rem;color:var(--green)}
+.toast.error{border-color:var(--red)}
+.toast.error i{color:var(--red)}
+.toast.gold{border-color:var(--gold)}
+.toast.gold i{color:var(--gold)}
+
+/* ============ OTHER PANELS ============ */
+.settings-body{padding:28px}
+.settings-body h2{font-family:'Space Grotesk';font-size:1.4rem;font-weight:800;margin-bottom:22px;display:flex;align-items:center;gap:10px;letter-spacing:-.5px}
+.set-item{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-bottom:1px solid var(--border);gap:15px}
+.set-item:last-child{border-bottom:none}
+.set-item .label{font-weight:700;font-size:.92rem}
+.set-item .desc{font-size:.75rem;color:var(--text2);margin-top:3px}
+.switch{position:relative;display:inline-block;width:50px;height:28px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;cursor:pointer;inset:0;background:var(--border3);transition:.3s;border-radius:34px}
+.switch .slider:before{content:"";position:absolute;height:20px;width:20px;left:4px;bottom:4px;background:#fff;transition:.3s;border-radius:50%}
+.switch input:checked+.slider{background:var(--grad)}
+.switch input:checked+.slider:before{transform:translateX(22px)}
+.theme-picker{display:flex;gap:8px;flex-wrap:wrap}
+.tdot{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .25s;position:relative}
+.tdot:hover{transform:scale(1.15)}
+.tdot.active{border-color:var(--text);transform:scale(1.15)}
+.tdot.active::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.85rem;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+
+.list-item{display:flex;gap:14px;padding:13px;background:var(--bg3);border:1px solid var(--border2);border-radius:14px;margin-bottom:9px;cursor:pointer;transition:all .25s;align-items:center}
+.list-item:hover{border-color:var(--purple);transform:translateX(4px)}
+.list-item .ic{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;flex-shrink:0;overflow:hidden}
+.list-item .ic img{width:100%;height:100%;object-fit:cover}
+.list-item .info{flex:1;min-width:0}
+.list-item h4{font-size:.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.list-item p{font-size:.72rem;color:var(--text2)}
+
+/* ============ FOOTER ============ */
+footer{margin-top:50px;padding:30px 0 20px;color:var(--text2);font-size:.82rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.flinks{display:flex;gap:10px}
+.flinks a{width:38px;height:38px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--purple);text-decoration:none;transition:all .3s}
+.flinks a:hover{background:var(--grad);color:#fff;border-color:transparent;transform:translateY(-3px)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1024px){
+  .search input{width:160px}.search input:focus{width:200px}
+  .hero{height:auto;min-height:380px}
+}
+@media (max-width:850px){
+  .widgets{order:3;width:100%;justify-content:center}
+  .topbar{justify-content:center}
+  .actions{order:2}
+  .row.c2,.row.c3,.row.c4{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .container{padding:10px}
+  .topbar{padding:10px 14px;border-radius:18px;top:6px}
+  .brand{font-size:1.15rem}
+  .brand-icon{width:32px;height:32px;font-size:.95rem}
+  .widget{padding:5px 11px}
+  .widget i{font-size:1rem}
+  .widget .val{font-size:.8rem}
+  .widget .lbl,.widget .sub{font-size:.55rem}
+  .search-wrapper{display:none}
+  .icon-btn{width:38px;height:38px;font-size:.88rem}
+  .profile-btn{padding:4px 10px 4px 4px;font-size:.75rem}
+  .avatar{width:28px;height:28px;font-size:.75rem}
+  .dropdown{width:280px;right:-8px}
+  .hero{padding:32px 22px;border-radius:20px;min-height:auto}
+  .hero h1{font-size:1.55rem;letter-spacing:-1px}
+  .hero p{font-size:.85rem}
+  .hero-dots{left:22px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .poster{font-size:3rem}
+  .card .info{padding:11px}
+  .card .title{font-size:.85rem}
+  .sec-title{font-size:1.2rem}
+  .detail-hero{padding:26px 20px 20px}
+  .detail-body{padding:20px}
+  .plans{padding:15px;gap:12px;grid-template-columns:1fr}
+  .modal{border-radius:20px}
+  .adm-body,.settings-body{padding:16px}
+  .adm-tabs{padding:14px;overflow-x:auto}
+  .adm-head{padding:26px 20px 16px}
+  .adm-head h2{font-size:1.4rem}
+  .row.c2,.row.c3,.row.c4{grid-template-columns:1fr}
+  .player-bar{padding:10px 14px}
+  .player-bar .pinfo h4{font-size:.82rem}
+  .player-bar select{padding:5px 9px;font-size:.72rem}
+}
+@media (max-width:400px){
+  .grid{grid-template-columns:1fr;gap:14px}
+  .profile-name span:first-child{display:none}
+  .hero h1{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-orbs"></div>
+
+<!-- AUTH -->
+<div class="auth-screen show" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="logo-icon"><i class="fas fa-dragon"></i></div>
+      <h1>AnimeVerse</h1>
+      <p>Ultra Pro Max anime platformasi</p>
+    </div>
+
+    <div class="auth-tabs" id="authTabs">
+      <div class="glider"></div>
+      <button class="auth-tab active" data-auth="login">Kirish</button>
+      <button class="auth-tab" data-auth="signup">Ro'yxatdan o'tish</button>
+    </div>
+
+    <form class="auth-form active" id="loginForm">
+      <div class="field">
+        <label>Email yoki Username</label>
+        <div class="field-wrap">
+          <input type="text" id="loginIdentifier" placeholder="email@example.com" autocomplete="username">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="err" id="loginIdentifierError"><i class="fas fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="field">
+        <label>Parol</label>
+        <div class="field-wrap">
+          <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+          <i class="fas fa-lock"></i>
+          <button type="button" class="toggle-pw" data-target="loginPassword"><i class="fas fa-eye"></i></button>
+        </div>
+        <div class="err" id="loginPasswordError"><i class="fas fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Kirish</button>
+      <div class="auth-foot">Hisobingiz yo'qmi? <a data-switch="signup">Ro'yxatdan o'ting</a></div>
+    </form>
+
+    <form class="auth-form" id="signupForm">
+      <div class="field">
+        <label>To'liq ism</label>
+        <div class="field-wrap">
+          <input type="text" id="signupName" placeholder="Aziz Karimov" autocomplete="name">
+          <i class="fas fa-id-card"></i>
+        </div>
+        <div class="err" id="signupNameError"><i class="fas fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <div class="field-wrap">
+          <input type="email" id="signupEmail" placeholder="email@example.com" autocomplete="email">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="err" id="signupEmailError"><i class="fas fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="field">
+        <label>Username</label>
+        <div class="field-wrap">
+          <input type="text" id="signupUsername" placeholder="aziz_karimov" autocomplete="username">
+          <i class="fas fa-at"></i>
+        </div>
+        <div class="err" id="signupUsernameError"><i class="fas fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="field">
+        <label>Parol</label>
+        <div class="field-wrap">
+          <input type="password" id="signupPassword" placeholder="Kamida 6 ta belgi" autocomplete="new-password">
+          <i class="fas fa-lock"></i>
+          <button type="button" class="toggle-pw" data-target="signupPassword"><i class="fas fa-eye"></i></button>
+        </div>
+        <div class="err" id="signupPasswordError"><i class="fas fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-user-plus"></i> Hisob yaratish</button>
+      <div class="auth-foot">Hisobingiz bormi? <a data-switch="login">Kiring</a></div>
+    </form>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container hidden" id="mainApp">
+
+  <header class="topbar">
+    <div class="brand" id="brandBtn">
+      <div class="brand-icon"><i class="fas fa-dragon"></i></div> AnimeVerse
+    </div>
+
+    <div class="widgets">
+      <div class="widget">
+        <i class="fas fa-cloud-sun" id="weatherIcon"></i>
+        <div class="txt">
+          <span class="lbl">Ob-havo</span>
+          <span class="val" id="weatherTemp">--°C</span>
+          <span class="sub" id="weatherDesc">...</span>
+        </div>
+      </div>
+      <div class="widget">
+        <i class="fas fa-clock"></i>
+        <div class="txt">
+          <span class="lbl">Vaqt</span>
+          <span class="val" id="timeValue">--:--</span>
+          <span class="sub" id="dateValue">--</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="actions">
+      <div class="search search-wrapper">
+        <input type="text" id="searchInput" placeholder="Anime qidirish...">
+        <i class="fas fa-search"></i>
+      </div>
+      <button class="icon-btn" id="themeBtn" title="Mavzu"><i class="fas fa-moon" id="themeIcon"></i></button>
+      <button class="icon-btn" id="notifBtn" title="Bildirishnomalar"><i class="fas fa-bell"></i><span class="dot hidden" id="notifDot"></span></button>
+
+      <div class="profile">
+        <button class="profile-btn" id="profileBtn">
+          <div class="avatar" id="avatarSmall">A</div>
+          <span id="nameSmall">User</span>
+          <span class="chip vip hidden" id="vipChipSmall">VIP</span>
+          <i class="fas fa-chevron-down" style="font-size:.6rem"></i>
+        </button>
+        <div class="dropdown" id="profileDropdown">
+          <div class="dd-head">
+            <div class="dd-av" id="avatarBig">A</div>
+            <div class="dd-info">
+              <h4 id="nameBig">User</h4>
+              <p id="statusBig">Bepul foydalanuvchi</p>
+            </div>
+          </div>
+          <div class="dd-menu">
+            <button class="dd-item admin" id="menuAdminBtn"><i class="fas fa-shield-halved"></i> Admin panel <span class="badge">🔒</span></button>
+            <button class="dd-item vip" id="menuVipBtn"><i class="fas fa-crown"></i> VIP ga o'tish</button>
+            <div class="dd-sep"></div>
+            <button class="dd-item" id="menuProfileBtn"><i class="fas fa-user"></i> Profilim</button>
+            <button class="dd-item" id="menuFavBtn"><i class="fas fa-heart"></i> Sevimlilar <span class="badge hidden" id="favCount">0</span></button>
+            <button class="dd-item" id="menuHistoryBtn"><i class="fas fa-history"></i> Ko'rish tarixi</button>
+            <button class="dd-item" id="menuWatchlistBtn"><i class="fas fa-bookmark"></i> Keyinroq ko'raman</button>
+            <button class="dd-item" id="menuSettingsBtn"><i class="fas fa-cog"></i> Sozlamalar</button>
+            <div class="dd-sep"></div>
+            <button class="dd-item danger" id="menuLogoutBtn"><i class="fas fa-sign-out-alt"></i> Chiqish</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="continue" id="continueBar">
+    <i class="fas fa-play-circle big"></i>
+    <div class="info">
+      <h4>Davom ettirish: <span id="contTitle">Anime</span></h4>
+      <p id="contInfo">1-qism • Hozirgina</p>
+    </div>
+    <button class="btn btn-primary" id="contPlayBtn"><i class="fas fa-play"></i> Davom etish</button>
+  </div>
+
+  <section class="hero" id="heroSlider">
+    <div class="hero-dots" id="heroDots"></div>
+  </section>
+
+  <div class="main-tabs">
+    <button class="mtab active" data-tab="anime"><i class="fas fa-fire"></i> Animelar</button>
+    <button class="mtab" data-tab="trending"><i class="fas fa-chart-line"></i> Trendda</button>
+    <button class="mtab" data-tab="new"><i class="fas fa-sparkles"></i> Yangi</button>
+    <button class="mtab" data-tab="random"><i class="fas fa-dice"></i> Tasodifiy</button>
+  </div>
+
+  <div id="animeSection">
+    <div class="filters">
+      <div><label>Janr</label><select id="filterGenre"><option value="">Barchasi</option></select></div>
+      <div><label>Yil</label><select id="filterYear"><option value="">Barchasi</option></select></div>
+      <div><label>Reyting</label><select id="filterRating"><option value="">Barchasi</option><option value="4.8">4.8+</option><option value="4.5">4.5+</option><option value="4">4.0+</option></select></div>
+      <div><label>Holat</label><select id="filterStatus"><option value="">Barchasi</option><option value="ongoing">Davom etmoqda</option><option value="completed">Tugallangan</option></select></div>
+      <div><label>Saralash</label><select id="filterSort"><option value="rating">Reyting ⬇</option><option value="year">Yangi ⬇</option><option value="title">A-Z</option></select></div>
+    </div>
+
+    <div class="sec-head">
+      <h2 class="sec-title"><i class="fas fa-fire"></i> <span id="sectionTitleText">Mashhur animelar</span></h2>
+      <div class="filter-tabs">
+        <button class="ftab active" data-filter="all">Barchasi</button>
+        <button class="ftab" data-filter="ongoing">Davom</button>
+        <button class="ftab" data-filter="completed">Tugallangan</button>
+        <button class="ftab" data-filter="vip">👑 VIP</button>
+        <button class="ftab" data-filter="fav">❤️</button>
+      </div>
+    </div>
+
+    <div class="grid" id="animeGrid"></div>
+  </div>
+
+  <footer>
+    <div>© 2025 AnimeVerse — Ultra Pro Max</div>
+    <div class="flinks">
+      <a href="#"><i class="fab fa-telegram"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+  </footer>
+</div>
+
+<!-- VIP MODAL -->
+<div class="overlay" id="vipOverlay">
+  <div class="modal">
+    <button class="close" data-close="vip"><i class="fas fa-times"></i></button>
+    <div class="vip-head">
+      <i class="fas fa-crown crown"></i>
+      <h2>VIP A'zolik</h2>
+      <p>Reklamasiz, HD sifatda, cheksiz tomosha</p>
+    </div>
+    <div class="plans" id="vipPlans"></div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal">
+    <button class="close" data-close="detail"><i class="fas fa-times"></i></button>
+    <div class="detail-hero">
+      <span class="d-tag" id="detailTag">Mashhur</span>
+      <h2 id="detailTitle">Anime</h2>
+      <div class="detail-meta">
+        <span><i class="fas fa-star"></i> <b id="detailRating">4.9</b></span>
+        <span><i class="fas fa-calendar"></i> <span id="detailYear">2024</span></span>
+        <span><i class="fas fa-film"></i> <span id="detailEps">24 qism</span></span>
+        <span><i class="fas fa-globe"></i> <span id="detailLang">Sub</span></span>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="dtabs">
+        <button class="active" data-dtab="info"><i class="fas fa-info-circle"></i> Ma'lumot</button>
+        <button data-dtab="eps"><i class="fas fa-film"></i> Epizodlar</button>
+        <button data-dtab="cmt"><i class="fas fa-comments"></i> Izohlar</button>
+        <button data-dtab="chars"><i class="fas fa-users"></i> Personajlar</button>
+      </div>
+
+      <div class="dpanel active" id="dtabInfo">
+        <div id="seasonsBox" class="hidden">
+          <h3><i class="fas fa-layer-group"></i> Bo'limlar</h3>
+          <div class="seasons" id="seasonsList"></div>
+        </div>
+        <h3><i class="fas fa-align-left"></i> Tavsif</h3>
+        <p id="detailDesc">Tavsif yuklanmoqda...</p>
+        <h3><i class="fas fa-star"></i> Baholang</h3>
+        <div class="stars" id="ratingStars">
+          <i class="fas fa-star" data-star="1"></i>
+          <i class="fas fa-star" data-star="2"></i>
+          <i class="fas fa-star" data-star="3"></i>
+          <i class="fas fa-star" data-star="4"></i>
+          <i class="fas fa-star" data-star="5"></i>
+        </div>
+        <p style="margin-bottom:20px;font-size:.82rem">O'rtacha: <b id="avgRating" style="color:var(--gold)">0.0</b> (<span id="ratingCount">0</span> ta ovoz)</p>
+        <div class="d-actions">
+          <button class="btn btn-primary" id="detailPlayBtn"><i class="fas fa-play"></i> Boshlash</button>
+          <button class="btn btn-ghost btn-icon-only" id="detailWatchBtn" title="Keyinroq"><i class="fas fa-bookmark"></i></button>
+          <button class="btn btn-ghost btn-icon-only" id="detailFavBtn" title="Sevimlilar"><i class="fas fa-heart"></i></button>
+          <button class="btn btn-ghost btn-icon-only" id="detailShareBtn" title="Ulashish"><i class="fas fa-share"></i></button>
+        </div>
+      </div>
+
+      <div class="dpanel" id="dtabEps">
+        <h3><i class="fas fa-film"></i> Barcha epizodlar</h3>
+        <div class="eps" id="episodeList"></div>
+      </div>
+
+      <div class="dpanel" id="dtabCmt">
+        <h3><i class="fas fa-comments"></i> Izohlar (<span id="cmtCount">0</span>)</h3>
+        <div class="cmt-input">
+          <textarea id="cmtInput" placeholder="Izohingizni yozing..."></textarea>
+          <button id="cmtSendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="cmts" id="cmtsList"></div>
+      </div>
+
+      <div class="dpanel" id="dtabChars">
+        <h3><i class="fas fa-users"></i> Personajlar</h3>
+        <div class="chars" id="charsGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYER -->
+<div class="overlay player-modal" id="playerOverlay">
+  <div class="modal">
+    <button class="close" data-close="player"><i class="fas fa-times"></i></button>
+    <div class="player-wrap" id="playerBox"></div>
+    <button class="skip-op" id="skipOpBtn"><i class="fas fa-forward"></i> OP o'tkazish</button>
+    <div class="player-bar">
+      <div class="pinfo">
+        <h4 id="playerTitle">Anime</h4>
+        <span id="playerEp">Ep 1</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <select id="qualitySel" title="Sifat"><option>480p</option><option selected>720p</option><option>1080p</option><option>4K</option></select>
+        <select id="langSel" title="Til"><option>Sub</option><option>Dub</option><option>Sub + Dub</option></select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="overlay admin-modal" id="adminOverlay">
+  <div class="modal">
+    <button class="close" data-close="admin"><i class="fas fa-times"></i></button>
+
+    <div id="adminLoginView">
+      <div style="padding:44px 36px;text-align:center">
+        <i class="fas fa-lock" style="font-size:3.5rem;color:var(--red);margin-bottom:16px;display:block;filter:drop-shadow(0 10px 30px rgba(239,68,68,.4))"></i>
+        <h3 style="font-family:'Space Grotesk';font-size:1.4rem;font-weight:800;margin-bottom:8px">Admin panel</h3>
+        <p style="color:var(--text2);margin-bottom:24px;font-size:.88rem">Faqat administratorlar uchun</p>
+        <input type="password" id="adminPass" placeholder="• • • • • • • •" maxlength="20" style="width:100%;padding:15px;background:var(--bg3);border:2px solid var(--border2);color:var(--text);border-radius:14px;font-family:inherit;font-size:1.05rem;text-align:center;letter-spacing:4px;font-weight:800;outline:none;transition:all .3s">
+        <div class="err" id="adminPassErr" style="justify-content:center;margin-top:12px"><i class="fas fa-circle-exclamation"></i><span>Parol noto'g'ri!</span></div>
+        <button class="btn btn-primary" id="adminLoginBtn" style="width:100%;justify-content:center;margin-top:18px;padding:14px"><i class="fas fa-sign-in-alt"></i> Kirish</button>
+      </div>
+    </div>
+
+    <div id="adminView" class="hidden">
+      <div class="adm-head">
+        <i class="fas fa-shield-halved"></i>
+        <h2>Admin Panel</h2>
+        <p>To'liq boshqaruv markazi</p>
+      </div>
+      <div class="adm-tabs">
+        <button class="adm-tab active" data-adm="add"><i class="fas fa-plus"></i> Anime</button>
+        <button class="adm-tab" data-adm="season"><i class="fas fa-layer-group"></i> Bo'lim</button>
+        <button class="adm-tab" data-adm="list"><i class="fas fa-list"></i> Ro'yxat</button>
+        <button class="adm-tab" data-adm="users"><i class="fas fa-users"></i> Foydalanuvchilar</button>
+        <button class="adm-tab" data-adm="tools"><i class="fas fa-toolbox"></i> Vositalar</button>
+      </div>
+
+      <div class="adm-body">
+        <!-- Add Anime -->
+        <div class="adm-panel active" id="admAdd">
+          <form class="adm-form" id="adminAnimeForm">
+            <div class="row c2">
+              <div class="field-adm"><label>Nomi *</label><input type="text" id="admTitle" required placeholder="Attack on Titan"></div>
+              <div class="field-adm"><label>Yil *</label><input type="number" id="admYear" required placeholder="2024" min="1950" max="2100"></div>
+            </div>
+            <div class="field-adm">
+              <label>Rasm URL (poster)</label>
+              <input type="url" id="admImage" placeholder="https://example.com/poster.jpg">
+              <div class="hint">💡 Rasm URL kiriting — agar bo'sh bo'lsa, ikonka ko'rsatiladi</div>
+            </div>
+            <div class="row c3">
+              <div class="field-adm"><label>Janr 1 *</label><input type="text" id="admG1" required placeholder="Action"></div>
+              <div class="field-adm"><label>Janr 2</label><input type="text" id="admG2" placeholder="Fantasy"></div>
+              <div class="field-adm"><label>Janr 3</label><input type="text" id="admG3" placeholder="Drama"></div>
+            </div>
+            <div class="row c4">
+              <div class="field-adm"><label>Reyting *</label><input type="number" id="admRating" step="0.1" min="1" max="5" required placeholder="4.8"></div>
+              <div class="field-adm"><label>Holat *</label><select id="admStatus"><option value="ongoing">Davom etmoqda</option><option value="completed">Tugallangan</option></select></div>
+              <div class="field-adm"><label>Epizodlar *</label><input type="number" id="admEps" required placeholder="12" min="1"></div>
+              <div class="field-adm"><label>Daqiqa *</label><input type="number" id="admDur" required placeholder="24" min="1" max="180"></div>
+            </div>
+            <div class="row c3">
+              <div class="field-adm"><label>Ikonka</label><input type="text" id="admIcon" placeholder="fa-dragon"><div class="hint">Font Awesome nomi</div></div>
+              <div class="field-adm"><label>Fon</label><select id="admBg"><option>g1</option><option>g2</option><option>g3</option><option>g4</option><option>g5</option><option>g6</option><option>g7</option><option>g8</option><option>g9</option></select></div>
+              <div class="field-adm"><label>Til</label><select id="admLang"><option>Sub</option><option>Dub</option><option>Sub + Dub</option></select></div>
+            </div>
+            <div class="row c2">
+              <div class="field-adm"><label>Sifat</label><select id="admQuality"><option>480p</option><option selected>720p</option><option>1080p</option><option>4K</option></select></div>
+              <div class="field-adm"><label>Manga URL</label><input type="url" id="admMangaUrl" placeholder="https://..."></div>
+            </div>
+            <div class="field-adm"><label>Tavsif</label><textarea id="admDesc" placeholder="Anime haqida qisqacha..." rows="3"></textarea></div>
+            <div class="field-adm">
+              <label>🎬 Video URL</label>
+              <input type="url" id="admVideo" placeholder="https://mover.uz/video/embed/XXXX yoki YouTube link">
+              <div class="hint">💡 Mover.uz: <code>https://mover.uz/video/embed/uxu60aYY</code> — YouTube ham ishlaydi</div>
+            </div>
+            <div class="check-row">
+              <input type="checkbox" id="admVip">
+              <label for="admVip">👑 VIP anime (faqat VIP a'zolar uchun)</label>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button type="submit" class="btn-adm save"><i class="fas fa-save"></i> <span id="admSubmitText">Anime qo'shish</span></button>
+              <button type="button" class="btn-adm ghost hidden" id="admCancelBtn"><i class="fas fa-times"></i> Bekor</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Add Season -->
+        <div class="adm-panel" id="admSeason">
+          <form class="adm-form" id="adminSeasonForm">
+            <div class="field-adm">
+              <label>Qaysi animening davomi? *</label>
+              <select id="admParent" required><option value="">-- Anime tanlang --</option></select>
+              <div class="hint">Faqat asosiy (davomi bo'lmagan) animelar</div>
+            </div>
+            <div class="row c2">
+              <div class="field-adm"><label>Bo'lim nomi *</label><input type="text" id="admSeasonName" required placeholder="2-fasl, Film, OVA..."></div>
+              <div class="field-adm"><label>Yil *</label><input type="number" id="admSeasonYear" required placeholder="2024"></div>
+            </div>
+            <div class="field-adm"><label>Rasm URL</label><input type="url" id="admSeasonImage"></div>
+            <div class="row c4">
+              <div class="field-adm"><label>Reyting *</label><input type="number" id="admSeasonRating" step="0.1" min="1" max="5" required placeholder="4.8"></div>
+              <div class="field-adm"><label>Holat</label><select id="admSeasonStatus"><option value="ongoing">Davom etmoqda</option><option value="completed">Tugallangan</option></select></div>
+              <div class="field-adm"><label>Epizodlar *</label><input type="number" id="admSeasonEps" required placeholder="12"></div>
+              <div class="field-adm"><label>Daqiqa *</label><input type="number" id="admSeasonDur" required placeholder="24"></div>
+            </div>
+            <div class="field-adm"><label>Tavsif</label><textarea id="admSeasonDesc" rows="2"></textarea></div>
+            <div class="field-adm"><label>🎬 Video URL</label><input type="url" id="admSeasonVideo" placeholder="https://mover.uz/video/embed/..."></div>
+            <div class="check-row"><input type="checkbox" id="admSeasonVip"><label for="admSeasonVip">👑 VIP bo'lim</label></div>
+            <button type="submit" class="btn-adm save"><i class="fas fa-layer-group"></i> Bo'lim qo'shish</button>
+          </form>
+        </div>
+
+        <!-- List -->
+        <div class="adm-panel" id="admList">
+          <div class="stats-grid" id="adminStats"></div>
+          <div class="adm-list" id="adminAnimeList"></div>
+        </div>
+
+        <!-- Users -->
+        <div class="adm-panel" id="admUsers">
+          <div class="stats-grid" id="adminUserStats"></div>
+          <input type="text" class="field-adm" id="userSearch" placeholder="🔍 Qidirish..." style="width:100%;padding:11px 13px;background:var(--bg3);border:1.5px solid transparent;color:var(--text);border-radius:11px;font-family:inherit;font-size:.87rem;outline:none;margin-bottom:15px">
+          <div class="adm-list" id="adminUsersList"></div>
+        </div>
+
+        <!-- Tools -->
+        <div class="adm-panel" id="admTools">
+          <h3 style="margin-bottom:16px;font-size:1.05rem;font-weight:800"><i class="fas fa-database" style="color:var(--purple)"></i> Import / Export</h3>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+            <button class="btn btn-primary" id="exportBtn"><i class="fas fa-download"></i> Export JSON</button>
+            <button class="btn btn-gold" id="exportUsersBtn"><i class="fas fa-users"></i> Users Export</button>
+            <label class="btn btn-ghost" style="cursor:pointer"><i class="fas fa-upload"></i> Import<input type="file" id="importFile" accept=".json" style="display:none"></label>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:18px;margin-bottom:20px">
+            <h4 style="margin-bottom:10px;font-size:.95rem">📊 Statistika</h4>
+            <div id="dataStats" style="font-size:.85rem;color:var(--text2);line-height:1.9"></div>
+          </div>
+          <button class="btn btn-ghost" id="resetAllBtn" style="border-color:var(--red);color:var(--red)"><i class="fas fa-trash-alt"></i> Barchasini o'chirish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE / SETTINGS / HISTORY -->
+<div class="overlay" id="profileOverlay">
+  <div class="modal" style="max-width:560px">
+    <button class="close" data-close="profile"><i class="fas fa-times"></i></button>
+    <div style="padding:40px 30px;text-align:center;background:linear-gradient(135deg,rgba(168,85,247,.25),rgba(236,72,153,.15))">
+      <div id="profileBigAvatar" style="width:100px;height:100px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:900;color:#fff;margin:0 auto 15px;border:4px solid rgba(255,255,255,.3);overflow:hidden"></div>
+      <h2 id="profileName" style="font-family:'Space Grotesk';font-size:1.5rem;font-weight:800;margin-bottom:4px"></h2>
+      <p id="profileUser" style="font-size:.85rem;color:var(--text2)"></p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px;padding:24px 30px">
+      <div class="stat"><div class="num" id="statWatched">0</div><div class="lbl">Ko'rildi</div></div>
+      <div class="stat"><div class="num" id="statFav">0</div><div class="lbl">Sevimli</div></div>
+      <div class="stat"><div class="num" id="statWatch">0</div><div class="lbl">Keyinroq</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="settingsOverlay">
+  <div class="modal" style="max-width:540px">
+    <button class="close" data-close="settings"><i class="fas fa-times"></i></button>
+    <div class="settings-body">
+      <h2><i class="fas fa-cog" style="color:var(--purple)"></i> Sozlamalar</h2>
+      <div class="set-item">
+        <div><div class="label">Rang mavzusi</div><div class="desc">Saytning asosiy rangi</div></div>
+        <div class="theme-picker" id="themePicker"></div>
+      </div>
+      <div class="set-item">
+        <div><div class="label">Tungi rejim</div><div class="desc">Ko'zni himoya</div></div>
+        <label class="switch"><input type="checkbox" id="setTheme"><span class="slider"></span></label>
+      </div>
+      <div class="set-item">
+        <div><div class="label">Bildirishnomalar</div><div class="desc">Yangi epizodlar haqida</div></div>
+        <label class="switch"><input type="checkbox" id="setNotif" checked><span class="slider"></span></label>
+      </div>
+      <div class="set-item">
+        <div><div class="label">Avtomatik OP o'tkazish</div><div class="desc">Opening tugmasini ko'rsatish</div></div>
+        <label class="switch"><input type="checkbox" id="setSkipOP" checked><span class="slider"></span></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="historyOverlay">
+  <div class="modal" style="max-width:560px">
+    <button class="close" data-close="history"><i class="fas fa-times"></i></button>
+    <div class="settings-body">
+      <h2><i class="fas fa-history" style="color:var(--purple)"></i> Ko'rish tarixi</h2>
+      <div id="historyList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="favOverlay">
+  <div class="modal" style="max-width:560px">
+    <button class="close" data-close="fav"><i class="fas fa-times"></i></button>
+    <div class="settings-body">
+      <h2><i class="fas fa-heart" style="color:var(--pink)"></i> Sevimlilar</h2>
+      <div id="favList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="watchlistOverlay">
+  <div class="modal" style="max-width:560px">
+    <button class="close" data-close="watchlist"><i class="fas fa-times"></i></button>
+    <div class="settings-body">
+      <h2><i class="fas fa-bookmark" style="color:var(--blue)"></i> Keyinroq ko'raman</h2>
+      <div id="watchlistList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="modal" style="max-width:420px">
+    <div style="padding:38px 30px;text-align:center">
+      <i class="fas fa-exclamation-triangle" style="font-size:3.5rem;color:var(--gold);margin-bottom:18px;display:block"></i>
+      <h3 id="confirmTitle" style="font-size:1.25rem;font-weight:800;margin-bottom:10px">Tasdiqlang</h3>
+      <p id="confirmText" style="color:var(--text2);margin-bottom:26px;font-size:.9rem"></p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button class="btn btn-ghost" id="confirmNo">Bekor</button>
+        <button class="btn btn-primary" id="confirmYes">Ha, davom</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+'use strict';
+
+/* ========== CONFIG ========== */
+const ADMIN_PASSWORD = 'Maxa1440';
+
+/* ========== ANIME DATA ========== */
+const DEFAULT_ANIME = [
+  { id:1, title:"Attack on Titan", genres:["Action","Drama"], rating:4.9, status:"completed", year:2013, eps:87, dur:24, vip:false, icon:"fa-shield-halved", bg:"g1", image:"", video:"https://mover.uz/video/embed/uxu60aYY", desc:"Insoniyat ulkan devorlar ortida titanlardan himoyalanadi. Eren Yeager onasidan ayrilgach, ularga qarshi kurashishga qaror qiladi.", parentId:null, seasonName:"", lang:"Sub + Dub", quality:"1080p" },
+  { id:2, title:"Demon Slayer", genres:["Action","Supernatural"], rating:4.8, status:"ongoing", year:2019, eps:55, dur:23, vip:false, icon:"fa-dragon", bg:"g4", image:"", video:"", desc:"Tanjiro Kamado oilasi qirg'in qilinib, singlisi Nezuko demon bo'lib qoladi. U singlisini qutqarish yo'lida kurashadi.", parentId:null, seasonName:"", lang:"Sub + Dub", quality:"1080p" },
+  { id:3, title:"Jujutsu Kaisen", genres:["Action","Horror"], rating:4.8, status:"ongoing", year:2020, eps:47, dur:24, vip:true, icon:"fa-ghost", bg:"g3", image:"", video:"", desc:"Yuji Itadori la'natlangan barmoqni yutib qo'yadi va Jujutsu sehrgarlar jamoasiga qo'shiladi.", parentId:null, seasonName:"", lang:"Sub", quality:"1080p" },
+  { id:4, title:"One Piece", genres:["Adventure","Fantasy"], rating:4.9, status:"ongoing", year:1999, eps:1100, dur:24, vip:false, icon:"fa-skull", bg:"g5", image:"", video:"", desc:"Monkey D. Luffy va uning ekipaji One Piece xazinasini topish uchun dengizda sayohat qiladi.", parentId:null, seasonName:"", lang:"Sub + Dub", quality:"720p" },
+  { id:5, title:"Naruto Shippuden", genres:["Action","Adventure"], rating:4.7, status:"completed", year:2007, eps:500, dur:23, vip:false, icon:"fa-leaf", bg:"g2", image:"", video:"", desc:"Naruto Uzumaki kuchli Hokage bo'lish orzusida va Akatsuki tashkilotiga qarshi kurashadi.", parentId:null, seasonName:"", lang:"Dub", quality:"720p" },
+  { id:6, title:"Death Note", genres:["Thriller","Mystery"], rating:4.9, status:"completed", year:2006, eps:37, dur:23, vip:true, icon:"fa-book-dead", bg:"g6", image:"", video:"", desc:"Light Yagami o'lim daftarini topib oladi va dunyoni o'zgartirmoqchi bo'ladi.", parentId:null, seasonName:"", lang:"Sub", quality:"1080p" },
+  { id:7, title:"My Hero Academia", genres:["Action","School"], rating:4.6, status:"ongoing", year:2016, eps:158, dur:24, vip:false, icon:"fa-bolt", bg:"g7", image:"", video:"", desc:"Izuku Midoriya super qahramonlar jamiyatida eng buyuk qahramon bo'lish orzusida.", parentId:null, seasonName:"", lang:"Sub + Dub", quality:"720p" },
+  { id:8, title:"Fullmetal Alchemist", genres:["Adventure","Drama"], rating:4.9, status:"completed", year:2009, eps:64, dur:24, vip:true, icon:"fa-flask", bg:"g8", image:"", video:"", desc:"Ikki aka-uka alchemy yordamida onasini qaytarmoqchi bo'lib, og'ir yo'qotishga uchraydi.", parentId:null, seasonName:"", lang:"Sub", quality:"1080p" },
+  { id:9, title:"Chainsaw Man", genres:["Action","Horror"], rating:4.7, status:"ongoing", year:2022, eps:12, dur:24, vip:true, icon:"fa-screwdriver-wrench", bg:"g6", image:"", video:"", desc:"Denji qarzlar ichida yashaydi va Pochita ismli iblis bilan qo'shilib Chainsaw Man'ga aylanadi.", parentId:null, seasonName:"", lang:"Sub", quality:"1080p" },
+  { id:10, title:"Spy x Family", genres:["Comedy","Action"], rating:4.8, status:"ongoing", year:2022, eps:37, dur:24, vip:false, icon:"fa-user-secret", bg:"g3", image:"", video:"", desc:"Josus, qotil va telepat boladan iborat soxta oila tinchlik uchun missiyalarni bajaradi.", parentId:null, seasonName:"", lang:"Sub + Dub", quality:"1080p" },
+  { id:11, title:"Tokyo Revengers", genres:["Action","Drama"], rating:4.5, status:"ongoing", year:2021, eps:60, dur:23, vip:false, icon:"fa-motorcycle", bg:"g1", image:"", video:"", desc:"Takemichi o'tmishga qaytib, sevgan qizining o'limini oldini olishga harakat qiladi.", parentId:null, seasonName:"", lang:"Sub", quality:"720p" },
+  { id:12, title:"Hunter x Hunter", genres:["Adventure","Fantasy"], rating:4.9, status:"completed", year:2011, eps:148, dur:23, vip:true, icon:"fa-crosshairs", bg:"g5", image:"", video:"", desc:"Gon Freecss otasini topish uchun Hunter imtihonidan o'tadi va xavfli sarguzashtlarga kirishadi.", parentId:null, seasonName:"", lang:"Sub + Dub", quality:"1080p" }
+];
+
+/* ========== STORAGE ========== */
+const getAnime = () => { try { const s = localStorage.getItem('av_anime'); if(s) return JSON.parse(s); } catch(e){} return JSON.parse(JSON.stringify(DEFAULT_ANIME)); };
+const saveAnime = d => localStorage.setItem('av_anime', JSON.stringify(d));
+let animeData = getAnime();
+
+/* ========== AUTH ========== */
+const auth = {
+  users(){ return JSON.parse(localStorage.getItem('av_users') || '[]'); },
+  saveUsers(u){ localStorage.setItem('av_users', JSON.stringify(u)); },
+  current(){ return JSON.parse(localStorage.getItem('av_current') || 'null'); },
+  setCurrent(u){ localStorage.setItem('av_current', JSON.stringify(u)); },
+  clear(){ localStorage.removeItem('av_current'); },
+  signup(name, email, username, password){
+    const users = this.users();
+    if(users.find(u => u.email.toLowerCase() === email.toLowerCase())) return { ok:false, field:'Email', msg:'Bu email band' };
+    if(users.find(u => u.username.toLowerCase() === username.toLowerCase())) return { ok:false, field:'Username', msg:'Bu username band' };
+    const user = { id:'u_'+Date.now(), name:name.trim(), email:email.trim().toLowerCase(), username:username.trim(), password, isVip:false, vipPlan:'', favorites:[], history:[], watchlist:[], ratings:{}, banned:false, avatar:'', createdAt:Date.now() };
+    users.push(user);
+    this.saveUsers(users);
+    return { ok:true, user };
+  },
+  login(id, pass){
+    const users = this.users();
+    const u = users.find(x => x.email.toLowerCase() === id.toLowerCase() || x.username.toLowerCase() === id.toLowerCase());
+    if(!u) return { ok:false, field:'Identifier', msg:'Foydalanuvchi topilmadi' };
+    if(u.banned) return { ok:false, field:'Identifier', msg:'Hisobingiz bloklangan' };
+    if(u.password !== pass) return { ok:false, field:'Password', msg:'Parol noto\'g\'ri' };
+    return { ok:true, user:u };
+  },
+  update(updates){
+    const c = this.current(); if(!c) return;
+    const users = this.users();
+    const i = users.findIndex(u => u.id === c.id);
+    if(i === -1) return;
+    users[i] = { ...users[i], ...updates };
+    this.saveUsers(users);
+    this.setCurrent(users[i]);
+  },
+  del(id){ this.saveUsers(this.users().filter(u => u.id !== id)); }
+};
+
+/* ========== STATE ========== */
+const state = {
+  user: null,
+  isVip: false, vipPlan: '',
+  fav: [], hist: [], watch: [], ratings: {},
+  filter: 'all', search: '',
+  detail: null, confirmCb: null,
+  currentPlayer: { id:null, ep:1 }
+};
+
+function loadUser(){
+  const u = state.user;
+  if(!u){ Object.assign(state, {isVip:false,vipPlan:'',fav:[],hist:[],watch:[],ratings:{}}); return; }
+  state.isVip = u.isVip || false;
+  state.vipPlan = u.vipPlan || '';
+  state.fav = u.favorites || [];
+  state.hist = u.history || [];
+  state.watch = u.watchlist || [];
+  state.ratings = u.ratings || {};
+}
+function saveUser(){
+  if(!state.user) return;
+  auth.update({ isVip: state.isVip, vipPlan: state.vipPlan, favorites: state.fav, history: state.hist, watchlist: state.watch, ratings: state.ratings });
+  state.user = auth.current();
+}
+
+/* ========== HELPERS ========== */
+const $ = id => document.getElementById(id);
+const $$ = sel => document.querySelectorAll(sel);
+
+function toast(msg, type=''){
+  const el = $('toast');
+  $('toastMsg').textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  const ic = el.querySelector('i');
+  ic.className = type === 'error' ? 'fas fa-exclamation-circle' : type === 'gold' ? 'fas fa-crown' : 'fas fa-check-circle';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function openModal(n){ const e = $(n+'Overlay'); if(e){ e.classList.add('open'); document.body.style.overflow = 'hidden'; } }
+function closeModal(n){ const e = $(n+'Overlay'); if(e){ e.classList.remove('open'); document.body.style.overflow = ''; } }
+function closeAll(){ ['vip','detail','player','admin','profile','settings','history','fav','watchlist','confirm'].forEach(closeModal); }
+
+$$('[data-close]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.close)));
+['vip','detail','player','admin','profile','settings','history','fav','watchlist'].forEach(n => {
+  const o = $(n+'Overlay');
+  if(o) o.addEventListener('click', e => { if(e.target === o) closeModal(n); });
+});
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeAll(); } });
+
+function confirmDlg(title, text, cb){
+  $('confirmTitle').textContent = title;
+  $('confirmText').textContent = text;
+  state.confirmCb = cb;
+  openModal('confirm');
+}
+$('confirmYes').onclick = () => { if(state.confirmCb) state.confirmCb(); state.confirmCb = null; closeModal('confirm'); };
+$('confirmNo').onclick = () => { state.confirmCb = null; closeModal('confirm'); };
+
+/* ========== AUTH UI ========== */
+const authScreen = $('authScreen');
+const mainApp = $('mainApp');
+
+$$('.auth-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    $$('.auth-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    $$('.auth-form').forEach(f => f.classList.remove('active'));
+    $(t.dataset.auth + 'Form').classList.add('active');
+    $('authTabs').classList.toggle('signup-mode', t.dataset.auth === 'signup');
+  });
+});
+$$('[data-switch]').forEach(el => {
+  el.addEventListener('click', () => {
+    $$('.auth-tab').forEach(t => { if(t.dataset.auth === el.dataset.switch) t.click(); });
+  });
+});
+$$('.toggle-pw').forEach(b => {
+  b.addEventListener('click', () => {
+    const i = $(b.dataset.target);
+    const ic = b.querySelector('i');
+    i.type = i.type === 'password' ? 'text' : 'password';
+    ic.className = i.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+  });
+});
+
+function showErr(field, msg){
+  const e = $(field + 'Error'); if(!e) return;
+  e.querySelector('span').textContent = msg;
+  e.classList.add('show');
+  const inp = $(field);
+  if(inp){ inp.classList.add('error'); setTimeout(() => inp.classList.remove('error'), 500); }
+}
+function clearErrs(fid){ $$('#'+fid+' .err').forEach(e => e.classList.remove('show')); }
+
+$('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  clearErrs('loginForm');
+  const id = $('loginIdentifier').value.trim();
+  const pass = $('loginPassword').value;
+  if(!id){ showErr('loginIdentifier', 'Kiriting'); return; }
+  if(!pass){ showErr('loginPassword', 'Kiriting'); return; }
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Tekshirilmoqda...';
+  setTimeout(() => {
+    const r = auth.login(id, pass);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Kirish';
+    if(!r.ok){ showErr(r.field === 'Identifier' ? 'loginIdentifier' : 'loginPassword', r.msg); return; }
+    auth.setCurrent(r.user);
+    state.user = r.user;
+    loadUser();
+    $('loginForm').reset();
+    toast(`Xush kelibsiz, ${r.user.name.split(' ')[0]}! 🎉`);
+    setTimeout(() => { authScreen.classList.remove('show'); mainApp.classList.remove('hidden'); initApp(); }, 300);
+  }, 500);
+});
+
+$('signupForm').addEventListener('submit', e => {
+  e.preventDefault();
+  clearErrs('signupForm');
+  const n = $('signupName').value.trim();
+  const em = $('signupEmail').value.trim();
+  const un = $('signupUsername').value.trim();
+  const pw = $('signupPassword').value;
+  let err = false;
+  if(!n || n.length < 2){ showErr('signupName', 'Kamida 2 ta belgi'); err = true; }
+  if(!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ showErr('signupEmail', 'Email noto\'g\'ri'); err = true; }
+  if(!un || un.length < 3){ showErr('signupUsername', 'Kamida 3 ta belgi'); err = true; }
+  if(!pw || pw.length < 6){ showErr('signupPassword', 'Kamida 6 ta belgi'); err = true; }
+  if(err) return;
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yaratilmoqda...';
+  setTimeout(() => {
+    const r = auth.signup(n, em, un, pw);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-user-plus"></i> Hisob yaratish';
+    if(!r.ok){ showErr('signup' + r.field, r.msg); return; }
+    auth.setCurrent(r.user);
+    state.user = r.user;
+    loadUser();
+    $('signupForm').reset();
+    toast('Hisobingiz yaratildi! 🎉');
+    setTimeout(() => { authScreen.classList.remove('show'); mainApp.classList.remove('hidden'); initApp(); }, 300);
+  }, 600);
+});
+
+/* ========== LOGOUT ========== */
+function logout(){
+  confirmDlg('Chiqish', 'Hisobdan chiqmoqchimisiz?', () => {
+    auth.clear();
+    state.user = null;
+    loadUser();
+    mainApp.classList.add('hidden');
+    authScreen.classList.add('show');
+    $$('.auth-tab')[0].click();
+    toast('Hisobdan chiqdingiz', 'error');
+  });
+}
+
+/* ========== HERO ========== */
+let heroIdx = 0, heroTimer;
+function renderHero(){
+  const slides = [
+    { title:'Sevimli animelaringizni <span>HD sifatda</span> tomosha qiling', desc:'Minglab anime, yangi epizodlar va VIP imkoniyatlar — barchasi bir joyda!', btn:'Tomosha boshlash', act:'scroll', bg:'g1' },
+    { title:'VIP a\'zolik bilan <span>reklamasiz</span> tomosha qiling', desc:'Faqat 29 000 so\'m/oy — barcha animelar 1080p sifatda', btn:'👑 VIP olish', act:'vip', bg:'g6' },
+    { title:'Yangi chiqqan <span>animelar</span> har kuni', desc:'Trenddagi va eng yangi animelarni birinchilardan bo\'lib ko\'ring', btn:'🔥 Yangi', act:'new', bg:'g3' }
+  ];
+  const hero = $('heroSlider');
+  hero.querySelectorAll('.hero-slide').forEach(s => s.remove());
+  slides.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'hero-slide' + (i === 0 ? ' active' : '');
+    div.innerHTML = `
+      <div class="bg ${s.bg}"></div>
+      <div class="hero-content">
+        <div class="hero-tag"><i class="fas fa-fire"></i> #1 Anime Platforma</div>
+        <h1>${s.title}</h1>
+        <p>${s.desc}</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" data-act="${s.act}"><i class="fas fa-play"></i> ${s.btn}</button>
+          <button class="btn btn-ghost" data-act="vip"><i class="fas fa-crown"></i> VIP</button>
+        </div>
+      </div>`;
+    hero.appendChild(div);
+  });
+  const dots = $('heroDots');
+  dots.innerHTML = slides.map((_, i) => `<span class="${i===0?'active':''}" data-s="${i}"></span>`).join('');
+  hero.querySelectorAll('[data-act]').forEach(b => {
+    b.addEventListener('click', () => {
+      const a = b.dataset.act;
+      if(a === 'scroll') $('animeSection').scrollIntoView({behavior:'smooth', block:'start'});
+      else if(a === 'vip') openVip();
+      else if(a === 'new'){ state.filter='all'; state.search=''; $$('.ftab').forEach(t=>t.classList.remove('active')); document.querySelector('.ftab[data-filter="all"]').classList.add('active'); renderAnime(); $('animeSection').scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+  dots.querySelectorAll('span').forEach(d => d.addEventListener('click', () => goSlide(+d.dataset.s)));
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => goSlide((heroIdx+1) % slides.length), 5500);
+}
+function goSlide(i){
+  heroIdx = i;
+  $$('.hero-slide').forEach((s, idx) => s.classList.toggle('active', idx === i));
+  $$('#heroDots span').forEach((d, idx) => d.classList.toggle('active', idx === i));
+}
+
+/* ========== RENDER ANIME ========== */
+function seasonsOf(pid){ return getAnime().filter(a => a.parentId === pid); }
+
+function renderAnime(){
+  animeData = getAnime();
+  const grid = $('animeGrid'); if(!grid) return;
+  grid.innerHTML = '';
+
+  let list = animeData.filter(a => !a.parentId);
+  if(state.filter === 'ongoing') list = list.filter(a => a.status === 'ongoing');
+  else if(state.filter === 'completed') list = list.filter(a => a.status === 'completed');
+  else if(state.filter === 'vip') list = list.filter(a => a.vip);
+  else if(state.filter === 'fav') list = list.filter(a => state.fav.includes(a.id));
+
+  const g = $('filterGenre').value, y = $('filterYear').value, r = $('filterRating').value;
+  const st = $('filterStatus').value, sort = $('filterSort').value;
+  if(g) list = list.filter(a => a.genres.includes(g));
+  if(y) list = list.filter(a => a.year === +y);
+  if(r) list = list.filter(a => a.rating >= +r);
+  if(st) list = list.filter(a => a.status === st);
+
+  if(state.search.trim()){
+    const q = state.search.toLowerCase();
+    const matched = new Set();
+    animeData.forEach(a => { if(a.title.toLowerCase().includes(q)){ a.parentId ? matched.add(a.parentId) : matched.add(a.id); } });
+    list = list.filter(a => matched.has(a.id));
+  }
+  if(sort === 'rating') list.sort((a,b) => b.rating - a.rating);
+  else if(sort === 'year') list.sort((a,b) => b.year - a.year);
+  else if(sort === 'title') list.sort((a,b) => a.title.localeCompare(b.title));
+
+  $('sectionTitleText').textContent =
+    state.search ? `Qidiruv: "${state.search}"` :
+    state.filter === 'ongoing' ? 'Davom etayotgan' :
+    state.filter === 'completed' ? 'Tugallangan' :
+    state.filter === 'vip' ? 'VIP animelar' :
+    state.filter === 'fav' ? 'Sevimlilar ❤️' : 'Mashhur animelar';
+
+  if(!list.length){
+    grid.innerHTML = '<div class="empty"><i class="fas fa-search"></i><p>Hech narsa topilmadi 😔</p></div>';
+    return;
+  }
+
+  list.forEach((a, i) => {
+    const isFav = state.fav.includes(a.id);
+    const locked = a.vip && !state.isVip;
+    const seas = seasonsOf(a.id);
+    const card = document.createElement('div');
+    card.className = 'card' + (locked ? ' locked' : '');
+    card.style.animationDelay = (i * 0.03) + 's';
+    card.dataset.id = a.id;
+
+    let badge = '';
+    if(a.vip) badge = '<span class="badge vip">👑 VIP</span>';
+    else if(a.status === 'ongoing' && a.year >= 2022) badge = '<span class="badge new">YANGI</span>';
+    else if(a.rating >= 4.8) badge = '<span class="badge hot">🔥 TOP</span>';
+    const seasonBadge = seas.length ? `<span class="badge season">📺 ${seas.length}</span>` : '';
+    const poster = a.image
+      ? `<img src="${a.image}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><i class="fas ${a.icon || 'fa-film'} ph-icon" style="display:none"></i>`
+      : `<i class="fas ${a.icon || 'fa-film'} ph-icon"></i>`;
+
+    card.innerHTML = `
+      <div class="poster ${a.bg || 'g1'}">
+        ${badge}${seasonBadge}
+        <span class="rating ${seas.length ? 'below' : ''}"><i class="fas fa-star"></i> ${a.rating}</span>
+        ${poster}
+        <div class="play-hover"><i class="fas fa-play"></i></div>
+        <div class="lock"><i class="fas fa-lock"></i><span>Faqat VIP</span></div>
+      </div>
+      <div class="info">
+        <div class="title">${a.title}</div>
+        <div class="meta">
+          <div class="genres">${(a.genres||[]).slice(0,2).map(g => `<span>${g}</span>`).join('')}</div>
+          <span>${a.year}</span>
+        </div>
+        <div class="card-acts">
+          <button class="btn-play-mini" data-play="${a.id}"><i class="fas fa-play"></i> Ko'rish</button>
+          <button class="btn-fav ${isFav ? 'active' : ''}" data-fav="${a.id}"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', e => {
+      if(e.target.closest('.btn-play-mini') || e.target.closest('.btn-fav')) return;
+      openDetail(+c.dataset.id);
+    });
+  });
+  grid.querySelectorAll('[data-play]').forEach(b => {
+    b.addEventListener('click', e => {
+      e.stopPropagation();
+      const id = +b.dataset.play;
+      const a = animeData.find(x => x.id === id);
+      if(a.vip && !state.isVip){ toast('Faqat VIP uchun! 👑', 'gold'); openVip(); return; }
+      playAnime(id, 1);
+    });
+  });
+  grid.querySelectorAll('[data-fav]').forEach(b => {
+    b.addEventListener('click', e => { e.stopPropagation(); toggleFav(+b.dataset.fav); });
+  });
+}
+
+/* ========== FAVORITES ========== */
+function toggleFav(id){
+  const a = animeData.find(x => x.id === id); if(!a) return;
+  const i = state.fav.indexOf(id);
+  if(i > -1){ state.fav.splice(i, 1); toast(`"${a.title}" olindi`, 'error'); }
+  else { state.fav.push(id); toast(`"${a.title}" qo'shildi ❤️`); }
+  saveUser();
+  renderAnime();
+  updateCounts();
+  updateDetailBtns();
+}
+
+function toggleWatch(id){
+  const a = animeData.find(x => x.id === id); if(!a) return;
+  const i = state.watch.indexOf(id);
+  if(i > -1){ state.watch.splice(i, 1); toast(`"${a.title}" olindi`, 'error'); }
+  else { state.watch.push(id); toast(`"${a.title}" keyinroqqa qo'shildi 🔖`); }
+  saveUser();
+  updateCounts();
+  updateDetailBtns();
+}
+
+function updateCounts(){
+  const fc = $('favCount');
+  fc.textContent = state.fav.length;
+  fc.classList.toggle('hidden', !state.fav.length);
+}
+
+/* ========== DETAIL ========== */
+function openDetail(id){
+  animeData = getAnime();
+  const a = animeData.find(x => x.id === id); if(!a) return;
+  state.detail = a;
+  const parent = a.parentId ? animeData.find(x => x.id === a.parentId) : null;
+  const seas = a.parentId ? [] : seasonsOf(a.id);
+
+  $('detailTag').textContent = a.vip ? '👑 VIP' : parent ? '📺 ' + a.seasonName : '⭐ Mashhur';
+  $('detailTitle').textContent = parent ? `${parent.title} — ${a.seasonName}` : a.title;
+  $('detailRating').textContent = a.rating;
+  $('detailYear').textContent = a.year;
+  $('detailEps').textContent = a.eps + ' qism';
+  $('detailLang').textContent = a.lang || 'Sub';
+  $('detailDesc').textContent = a.desc || 'Tavsif yo\'q';
+
+  // Seasons
+  const box = $('seasonsBox');
+  if(seas.length){
+    box.classList.remove('hidden');
+    const sl = $('seasonsList');
+    sl.innerHTML = `
+      <div class="season current">
+        <span class="cur-tag">ASOSIY</span>
+        <div class="thumb ${a.bg}">${a.image ? `<img src="${a.image}">` : `<i class="fas ${a.icon || 'fa-film'}"></i>`}</div>
+        <h4>${a.title}</h4>
+        <p>${a.year} • ${a.eps} qism</p>
+      </div>` + seas.sort((x,y) => x.year - y.year).map(s => `
+      <div class="season" data-s="${s.id}">
+        <div class="thumb ${s.bg}">${s.image ? `<img src="${s.image}">` : `<i class="fas ${s.icon || 'fa-film'}"></i>`}</div>
+        <h4>${s.seasonName}</h4>
+        <p>${s.year} • ${s.eps} qism</p>
+      </div>`).join('');
+    sl.querySelectorAll('[data-s]').forEach(el => el.addEventListener('click', () => { closeModal('detail'); setTimeout(() => openDetail(+el.dataset.s), 250); }));
+  } else box.classList.add('hidden');
+
+  // Ratings
+  const userR = state.ratings[a.id] || 0;
+  $$('#ratingStars i').forEach((s, i) => s.classList.toggle('active', i < userR));
+  const allR = JSON.parse(localStorage.getItem('av_r_' + a.id) || '[]');
+  const avg = allR.length ? (allR.reduce((x,y) => x+y, 0) / allR.length).toFixed(1) : a.rating.toFixed(1);
+  $('avgRating').textContent = avg;
+  $('ratingCount').textContent = allR.length;
+
+  // Episodes
+  const epList = $('episodeList'); epList.innerHTML = '';
+  const total = Math.min(a.eps, 30);
+  for(let i = 1; i <= total; i++){
+    const vEp = a.vip && i > 3;
+    const watched = state.hist.find(h => h.id === a.id && h.episode === i);
+    const ep = document.createElement('div');
+    ep.className = 'ep' + (vEp ? ' vip-ep' : '') + (watched ? ' watched' : '');
+    ep.innerHTML = `<i class="fas fa-play" style="font-size:.65rem;margin-right:4px;opacity:.7"></i>${i}`;
+    ep.addEventListener('click', () => {
+      if(vEp && !state.isVip){ toast('Faqat VIP uchun! 👑', 'gold'); closeModal('detail'); openVip(); return; }
+      closeModal('detail'); playAnime(a.id, i);
+    });
+    epList.appendChild(ep);
+  }
+
+  renderComments();
+  renderChars();
+  updateDetailBtns();
+  switchDtab('info');
+  openModal('detail');
+}
+
+function switchDtab(t){
+  $$('.dtabs button').forEach(b => b.classList.toggle('active', b.dataset.dtab === t));
+  $$('.dpanel').forEach(p => p.classList.remove('active'));
+  $('dtab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.add('active');
+}
+$$('.dtabs button').forEach(b => b.addEventListener('click', () => switchDtab(b.dataset.dtab)));
+
+$$('#ratingStars i').forEach(s => {
+  s.addEventListener('mouseenter', () => {
+    const v = +s.dataset.star;
+    $$('#ratingStars i').forEach((x, i) => x.classList.toggle('hover', i < v));
+  });
+  s.addEventListener('mouseleave', () => $$('#ratingStars i').forEach(x => x.classList.remove('hover')));
+  s.addEventListener('click', () => {
+    if(!state.detail) return;
+    const v = +s.dataset.star;
+    state.ratings[state.detail.id] = v;
+    const all = JSON.parse(localStorage.getItem('av_r_' + state.detail.id) || '[]');
+    all.push(v);
+    localStorage.setItem('av_r_' + state.detail.id, JSON.stringify(all));
+    saveUser();
+    toast(`${v} yulduz qo'ydingiz ⭐`);
+    openDetail(state.detail.id);
+  });
+});
+
+function updateDetailBtns(){
+  if(!state.detail) return;
+  const a = state.detail;
+  $('detailFavBtn').innerHTML = state.fav.includes(a.id) ? '<i class="fas fa-heart" style="color:var(--pink)"></i>' : '<i class="fas fa-heart"></i>';
+  $('detailFavBtn').style.borderColor = state.fav.includes(a.id) ? 'var(--pink)' : '';
+  $('detailWatchBtn').innerHTML = state.watch.includes(a.id) ? '<i class="fas fa-bookmark" style="color:var(--blue)"></i>' : '<i class="fas fa-bookmark"></i>';
+  $('detailWatchBtn').style.borderColor = state.watch.includes(a.id) ? 'var(--blue)' : '';
+}
+$('detailFavBtn').onclick = () => { if(state.detail) toggleFav(state.detail.id); };
+$('detailWatchBtn').onclick = () => { if(state.detail) toggleWatch(state.detail.id); };
+$('detailShareBtn').onclick = () => {
+  if(navigator.share) navigator.share({ title: state.detail.title, url: location.href }).catch(() => {});
+  else { navigator.clipboard.writeText(location.href); toast('Havola nusxalandi 📋'); }
+};
+$('detailPlayBtn').onclick = () => {
+  if(!state.detail) return;
+  const a = state.detail;
+  if(a.vip && !state.isVip){ toast('Faqat VIP uchun! 👑', 'gold'); closeModal('detail'); openVip(); return; }
+  closeModal('detail'); playAnime(a.id, 1);
+};
+
+/* ========== COMMENTS ========== */
+function renderComments(){
+  if(!state.detail) return;
+  const cid = state.detail.id;
+  const all = JSON.parse(localStorage.getItem('av_c_' + cid) || '[]');
+  $('cmtCount').textContent = all.length;
+  const list = $('cmtsList');
+  if(!all.length){
+    list.innerHTML = '<p style="text-align:center;padding:25px;color:var(--text2);font-size:.88rem">Hozircha izohlar yo\'q. Birinchi bo\'ling! 💬</p>';
+    return;
+  }
+  list.innerHTML = all.slice().reverse().map(c => {
+    const liked = (c.likes || []).includes(state.user.id);
+    const dt = new Date(c.time);
+    return `<div class="cmt">
+      <div class="cmt-head">
+        <div class="cmt-av">${c.user.charAt(0).toUpperCase()}</div>
+        <div><div class="cmt-user">${c.user}</div><div class="cmt-time">${dt.toLocaleDateString('uz-UZ')} ${dt.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'})}</div></div>
+      </div>
+      <div class="cmt-text">${c.text.replace(/</g, '&lt;')}</div>
+      <div class="cmt-acts">
+        <button class="like-btn ${liked ? 'active' : ''}" data-cid="${c.id}"><i class="fas fa-thumbs-up"></i> ${(c.likes || []).length}</button>
+      </div>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.like-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const all = JSON.parse(localStorage.getItem('av_c_' + cid) || '[]');
+      const c = all.find(x => x.id === b.dataset.cid);
+      if(!c) return;
+      c.likes = c.likes || [];
+      const i = c.likes.indexOf(state.user.id);
+      if(i > -1) c.likes.splice(i, 1); else c.likes.push(state.user.id);
+      localStorage.setItem('av_c_' + cid, JSON.stringify(all));
+      renderComments();
+    });
+  });
+}
+$('cmtSendBtn').onclick = () => {
+  const text = $('cmtInput').value.trim();
+  if(!text){ toast('Izoh yozing!', 'error'); return; }
+  if(!state.detail) return;
+  const cid = state.detail.id;
+  const all = JSON.parse(localStorage.getItem('av_c_' + cid) || '[]');
+  all.push({ id:'c_' + Date.now(), user: state.user.name, userId: state.user.id, text, likes: [], time: Date.now() });
+  localStorage.setItem('av_c_' + cid, JSON.stringify(all));
+  $('cmtInput').value = '';
+  toast('Izoh qoldirildi 💬');
+  renderComments();
+};
+
+/* ========== CHARACTERS ========== */
+function renderChars(){
+  if(!state.detail) return;
+  const chars = [
+    { n: 'Bosh qahramon', r: 'Asosiy' },
+    { n: 'Yaqin do\'st', r: 'Yordamchi' },
+    { n: 'Antagonist', r: 'Yovuz' },
+    { n: 'Ustoz', r: 'Mentor' }
+  ];
+  $('charsGrid').innerHTML = chars.map(c => `
+    <div class="char">
+      <div class="char-av"><i class="fas fa-user"></i></div>
+      <h4>${c.n}</h4>
+      <p>${c.r}</p>
+    </div>`).join('');
+}
+
+/* ========== PLAYER (MOVER.UZ + YouTube) ========== */
+function toEmbed(url){
+  if(!url) return '';
+  if(url.includes('mover.uz/video/embed/')) return url;
+  const mm = url.match(/mover\.uz\/video\/([a-zA-Z0-9]+)/);
+  if(mm) return 'https://mover.uz/video/embed/' + mm[1];
+  if(url.includes('youtube.com/embed/')) return url;
+  const w = url.match(/[?&]v=([^&]+)/);
+  if(w) return 'https://www.youtube.com/embed/' + w[1];
+  const s = url.match(/youtu\.be\/([^?]+)/);
+  if(s) return 'https://www.youtube.com/embed/' + s[1];
+  return url;
+}
+
+function playAnime(id, ep = 1){
+  animeData = getAnime();
+  const a = animeData.find(x => x.id === id); if(!a) return;
+
+  state.hist = state.hist.filter(h => !(h.id === id && h.episode === ep));
+  state.hist.unshift({ id, episode: ep, time: Date.now() });
+  state.hist = state.hist.slice(0, 50);
+  state.currentPlayer = { id, ep };
+  saveUser();
+  updateContinue();
+
+  const box = $('playerBox');
+  if(a.video){
+    const embed = toEmbed(a.video);
+    const isMover = embed.includes('mover.uz');
+    const params = isMover ? '' : '?autoplay=1&rel=0';
+    box.innerHTML = `<iframe src="${embed}${params}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  } else {
+    box.innerHTML = `
+      <div class="player-empty">
+        <i class="fas fa-film"></i>
+        <h3>${a.title}</h3>
+        <p>${ep}-qism — Video hali qo'shilmagan</p>
+        <p style="margin-top:14px;font-size:.75rem;color:#5a6b85">Admin panel orqali video qo'shing</p>
+      </div>`;
+  }
+  $('playerTitle').textContent = a.title;
+  $('playerEp').textContent = 'Ep ' + ep;
+  $('qualitySel').value = a.quality || '720p';
+  $('langSel').value = a.lang || 'Sub';
+
+  if(localStorage.getItem('av_skipOP') !== 'false'){
+    const skip = $('skipOpBtn');
+    skip.classList.remove('show');
+    setTimeout(() => skip.classList.add('show'), 2500);
+    setTimeout(() => skip.classList.remove('show'), 12000);
+  }
+  openModal('player');
+}
+
+$('skipOpBtn').onclick = e => { e.currentTarget.classList.remove('show'); toast('Opening o\'tkazib yuborildi ⏭️'); };
+
+/* ========== CONTINUE ========== */
+function updateContinue(){
+  const bar = $('continueBar');
+  const a = animeData.find(x => x.id === state.currentPlayer.id);
+  if(!a || !state.currentPlayer.id){ bar.classList.remove('show'); return; }
+  $('contTitle').textContent = a.title;
+  $('contInfo').textContent = state.currentPlayer.ep + '-qism • Hozirgina';
+  bar.classList.add('show');
+}
+$('contPlayBtn').onclick = () => { if(state.currentPlayer.id) playAnime(state.currentPlayer.id, state.currentPlayer.ep); };
+
+/* ========== VIP ========== */
+function openVip(){ closeAll(); openModal('vip'); }
+
+function renderVipPlans(){
+  const plans = [
+    { n:'Bepul', i:'fa-user', p:'0', per:'Doimiy bepul', f:[{ok:1,t:'Cheklangan anime'},{ok:1,t:'480p sifat'},{ok:0,t:'Reklamasiz'},{ok:0,t:'HD 1080p'},{ok:0,t:'Offline'}] },
+    { n:'Premium', i:'fa-crown', p:'29 000', per:'so\'m / oyiga', pop:1, f:[{ok:1,t:'Barcha animelar'},{ok:1,t:'HD 1080p'},{ok:1,t:'Reklamasiz'},{ok:1,t:'Offline'},{ok:1,t:'2 qurilmada'}] },
+    { n:'Ultra VIP', i:'fa-gem', p:'79 000', per:'so\'m / 3 oyga', f:[{ok:1,t:'Barcha Premium'},{ok:1,t:'4K Ultra HD'},{ok:1,t:'5 qurilmada'},{ok:1,t:'Erta kirish'},{ok:1,t:'24/7 qo\'llab'}] }
+  ];
+  $('vipPlans').innerHTML = plans.map(p => `
+    <div class="plan ${p.pop ? 'popular' : ''}">
+      ${p.pop ? '<div class="pop-tag">ENG MASHHUR</div>' : ''}
+      <i class="fas ${p.i} plan-icon"></i>
+      <h3>${p.n}</h3>
+      <div class="price">${p.p}</div>
+      <div class="period">${p.per}</div>
+      <ul>${p.f.map(x => `<li class="${x.ok ? '' : 'off'}"><i class="fas ${x.ok ? 'fa-check' : 'fa-times'}"></i> ${x.t}</li>`).join('')}</ul>
+      <button class="btn-plan" data-plan="${p.n}">${p.n === 'Bepul' ? 'Joriy reja' : (p.pop ? '👑 Sotib olish' : '💎 Sotib olish')}</button>
+    </div>`).join('');
+  $$('#vipPlans [data-plan]').forEach(b => b.addEventListener('click', () => activateVip(b.dataset.plan)));
+}
+
+function activateVip(plan){
+  if(plan === 'Bepul'){ toast(state.isVip ? 'Avval VIP dan chiqing' : 'Siz bepul foydalanuvchisiz', 'error'); return; }
+  confirmDlg('VIP sotib olish', `"${plan}" rejasini sotib olmoqchimisiz?`, () => {
+    state.isVip = true;
+    state.vipPlan = plan;
+    saveUser();
+    updateVipUI();
+    renderAnime();
+    closeModal('vip');
+    toast(`🎉 ${plan} a'zosi bo'ldingiz!`, 'gold');
+  });
+}
+
+function cancelVip(){
+  confirmDlg('Bekor qilish', 'VIP a\'zolikni bekor qilasizmi?', () => {
+    state.isVip = false;
+    state.vipPlan = '';
+    saveUser();
+    updateVipUI();
+    renderAnime();
+    toast('VIP bekor qilindi', 'error');
+  });
+}
+
+function updateVipUI(){
+  $('vipChipSmall').classList.toggle('hidden', !state.isVip);
+  $('statusBig').innerHTML = state.isVip ? '<i class="fas fa-crown" style="color:var(--gold)"></i> ' + state.vipPlan + ' a\'zosi' : 'Bepul foydalanuvchi';
+}
+
+/* ========== ADMIN ========== */
+let adminUnlocked = false, editingId = null;
+
+function openAdmin(){
+  if(adminUnlocked){
+    $('adminLoginView').classList.add('hidden');
+    $('adminView').classList.remove('hidden');
+    renderAdmList(); fillParentSel(); renderAdmUsers(); updateStats();
+  } else {
+    $('adminLoginView').classList.remove('hidden');
+    $('adminView').classList.add('hidden');
+    $('adminPass').value = '';
+    $('adminPassErr').classList.remove('show');
+  }
+  openModal('admin');
+}
+
+$('adminLoginBtn').onclick = () => {
+  const p = $('adminPass').value;
+  if(p === ADMIN_PASSWORD){
+    adminUnlocked = true;
+    $('adminPassErr').classList.remove('show');
+    $('adminLoginView').classList.add('hidden');
+    $('adminView').classList.remove('hidden');
+    renderAdmList(); fillParentSel(); renderAdmUsers(); updateStats();
+    toast('Admin panelga xush kelibsiz! 🛡️', 'gold');
+  } else {
+    $('adminPassErr').classList.add('show');
+    toast('Parol noto\'g\'ri!', 'error');
+  }
+};
+$('adminPass').addEventListener('keypress', e => { if(e.key === 'Enter') $('adminLoginBtn').click(); });
+
+$$('.adm-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    $$('.adm-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    $$('.adm-panel').forEach(p => p.classList.remove('active'));
+    const map = { add:'admAdd', season:'admSeason', list:'admList', users:'admUsers', tools:'admTools' };
+    $(map[t.dataset.adm]).classList.add('active');
+    if(t.dataset.adm === 'list') renderAdmList();
+    if(t.dataset.adm === 'season') fillParentSel();
+    if(t.dataset.adm === 'users') renderAdmUsers();
+    if(t.dataset.adm === 'tools') updateStats();
+  });
+});
+
+/* Add anime */
+$('adminAnimeForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const data = {
+    title: $('admTitle').value.trim(),
+    year: +$('admYear').value,
+    image: $('admImage').value.trim(),
+    genres: [$('admG1').value.trim(), $('admG2').value.trim(), $('admG3').value.trim()].filter(x => x),
+    rating: +$('admRating').value,
+    status: $('admStatus').value,
+    eps: +$('admEps').value,
+    dur: +$('admDur').value,
+    icon: $('admIcon').value.trim() || 'fa-film',
+    bg: $('admBg').value,
+    lang: $('admLang').value,
+    quality: $('admQuality').value,
+    mangaUrl: $('admMangaUrl').value.trim(),
+    desc: $('admDesc').value.trim(),
+    video: $('admVideo').value.trim(),
+    vip: $('admVip').checked
+  };
+  if(!data.title || !data.year || !data.genres[0] || !data.rating || !data.eps || !data.dur){ toast('Majburiy maydonlarni to\'ldiring!', 'error'); return; }
+  const all = getAnime();
+  if(editingId){
+    const i = all.findIndex(a => a.id === editingId);
+    if(i > -1){ all[i] = { ...all[i], ...data }; saveAnime(all); toast('✅ Tahrirlandi!'); cancelEdit(); }
+  } else {
+    const nid = all.length ? Math.max(...all.map(a => a.id)) + 1 : 1;
+    all.push({ id: nid, ...data, parentId: null, seasonName: '' });
+    saveAnime(all);
+    toast('✅ Anime qo\'shildi!');
+    e.target.reset();
+  }
+  animeData = getAnime();
+  renderAnime(); renderAdmList(); fillParentSel(); initFilters();
+});
+
+function cancelEdit(){
+  editingId = null;
+  $('adminAnimeForm').reset();
+  $('admSubmitText').textContent = 'Anime qo\'shish';
+  $('admCancelBtn').classList.add('hidden');
+}
+$('admCancelBtn').onclick = cancelEdit;
+
+/* Add season */
+function fillParentSel(){
+  const parents = getAnime().filter(a => !a.parentId);
+  $('admParent').innerHTML = '<option value="">-- Anime tanlang --</option>' + parents.map(p => `<option value="${p.id}">${p.title} (${p.year})</option>`).join('');
+}
+
+$('adminSeasonForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const pid = +$('admParent').value;
+  const name = $('admSeasonName').value.trim();
+  const year = +$('admSeasonYear').value;
+  const image = $('admSeasonImage').value.trim();
+  const rating = +$('admSeasonRating').value;
+  const status = $('admSeasonStatus').value;
+  const eps = +$('admSeasonEps').value;
+  const dur = +$('admSeasonDur').value;
+  const desc = $('admSeasonDesc').value.trim();
+  const video = $('admSeasonVideo').value.trim();
+  const vip = $('admSeasonVip').checked;
+  if(!pid || !name || !year || !rating || !eps || !dur){ toast('Majburiy maydonlarni to\'ldiring!', 'error'); return; }
+  const all = getAnime();
+  const parent = all.find(x => x.id === pid);
+  if(!parent){ toast('Asosiy anime topilmadi', 'error'); return; }
+  const nid = all.length ? Math.max(...all.map(a => a.id)) + 1 : 1;
+  all.push({
+    id: nid, title: `${parent.title}: ${name}`, year, image,
+    genres: parent.genres || [], rating, status, eps, dur,
+    icon: parent.icon || 'fa-film', bg: parent.bg || 'g1',
+    lang: parent.lang || 'Sub', quality: parent.quality || '720p',
+    desc: desc || `${name} — ${parent.title} davomi`,
+    video, vip, parentId: pid, seasonName: name
+  });
+  saveAnime(all);
+  animeData = getAnime();
+  renderAnime(); renderAdmList();
+  e.target.reset();
+  toast(`✅ "${name}" qo'shildi!`, 'gold');
+});
+
+/* Admin list */
+function renderAdmList(){
+  const data = getAnime();
+  const parents = data.filter(a => !a.parentId);
+  const children = data.filter(a => a.parentId);
+  const sorted = [];
+  parents.forEach(p => {
+    sorted.push({ ...p, _p: true });
+    children.filter(c => c.parentId === p.id).forEach(c => sorted.push({ ...c, _c: true, _pt: p.title }));
+  });
+
+  const list = $('adminAnimeList');
+  if(!sorted.length){ list.innerHTML = '<div class="empty"><i class="fas fa-folder-open"></i><p>Bo\'sh</p></div>'; return; }
+
+  list.innerHTML = '';
+  sorted.forEach(a => {
+    const item = document.createElement('div');
+    item.className = 'adm-item';
+    if(a._c){ item.style.marginLeft = '24px'; item.style.borderLeft = '3px solid var(--blue)'; }
+    const thumb = a.image
+      ? `<img src="${a.image}" onerror="this.parentElement.innerHTML='<i class=\\'fas ${a.icon || 'fa-film'}\\'></i>'">`
+      : `<i class="fas ${a.icon || 'fa-film'}"></i>`;
+    item.innerHTML = `
+      <div class="adm-thumb ${a.bg || 'g1'}">${thumb}</div>
+      <div class="adm-info">
+        <h4>${a._c ? '📺 ' : ''}${a.vip ? '👑 ' : ''}${a._c ? a.seasonName + ' — ' + a._pt : a.title}</h4>
+        <p>⭐ ${a.rating} • ${a.year} • ${a.eps} qism • ${a.status === 'ongoing' ? 'Davom' : 'Tugallangan'}</p>
+      </div>
+      <div class="adm-acts">
+        ${!a._c ? `<button class="adm-btn season" data-season="${a.id}" title="Bo'lim qo'shish"><i class="fas fa-layer-group"></i></button>` : ''}
+        <button class="adm-btn edit" data-edit="${a.id}" title="Tahrirlash"><i class="fas fa-pen"></i></button>
+        <button class="adm-btn del" data-del="${a.id}" title="O'chirish"><i class="fas fa-trash"></i></button>
+      </div>`;
+    list.appendChild(item);
+  });
+
+  list.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => {
+    const id = +b.dataset.edit;
+    const a = getAnime().find(x => x.id === id);
+    if(!a) return;
+    if(a.parentId){ toast('Bo\'limni tahrirlab bo\'lmaydi', 'gold'); return; }
+    editingId = id;
+    $('admTitle').value = a.title;
+    $('admYear').value = a.year;
+    $('admImage').value = a.image || '';
+    $('admG1').value = a.genres[0] || '';
+    $('admG2').value = a.genres[1] || '';
+    $('admG3').value = a.genres[2] || '';
+    $('admRating').value = a.rating;
+    $('admStatus').value = a.status;
+    $('admEps').value = a.eps;
+    $('admDur').value = a.dur;
+    $('admIcon').value = a.icon || '';
+    $('admBg').value = a.bg || 'g1';
+    $('admLang').value = a.lang || 'Sub';
+    $('admQuality').value = a.quality || '720p';
+    $('admMangaUrl').value = a.mangaUrl || '';
+    $('admDesc').value = a.desc || '';
+    $('admVideo').value = a.video || '';
+    $('admVip').checked = a.vip;
+    $('admSubmitText').textContent = 'O\'zgarishlarni saqlash';
+    $('admCancelBtn').classList.remove('hidden');
+    document.querySelector('.adm-tab[data-adm="add"]').click();
+    $('admTitle').focus();
+  });
+
+  list.querySelectorAll('[data-del]').forEach(b => b.onclick = () => {
+    const id = +b.dataset.del;
+    const a = getAnime().find(x => x.id === id);
+    if(!a) return;
+    const cc = getAnime().filter(x => x.parentId === id).length;
+    confirmDlg('O\'chirish', cc > 0 ? `"${a.title}" va ${cc} ta bo'limini o'chirasizmi?` : `"${a.title}" o'chirilsinmi?`, () => {
+      saveAnime(getAnime().filter(x => x.id !== id && x.parentId !== id));
+      animeData = getAnime();
+      renderAnime(); renderAdmList(); fillParentSel(); initFilters();
+      toast('O\'chirildi 🗑️', 'error');
+    });
+  });
+
+  list.querySelectorAll('[data-season]').forEach(b => b.onclick = () => {
+    document.querySelector('.adm-tab[data-adm="season"]').click();
+    setTimeout(() => { $('admParent').value = b.dataset.season; $('admSeasonName').focus(); }, 100);
+  });
+}
+
+/* Admin users */
+function renderAdmUsers(){
+  const users = auth.users();
+  const q = ($('userSearch').value || '').toLowerCase();
+  const list = users.filter(u => !q || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || u.username.toLowerCase().includes(q));
+
+  $('adminUserStats').innerHTML = `
+    <div class="stat"><div class="num">${users.length}</div><div class="lbl">Jami</div></div>
+    <div class="stat"><div class="num" style="background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent">${users.filter(u => u.isVip).length}</div><div class="lbl">VIP</div></div>
+    <div class="stat"><div class="num" style="background:linear-gradient(135deg,#ef4444,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent">${users.filter(u => u.banned).length}</div><div class="lbl">Ban</div></div>`;
+
+  const cont = $('adminUsersList');
+  if(!list.length){ cont.innerHTML = '<div class="empty"><i class="fas fa-users-slash"></i><p>Topilmadi</p></div>'; return; }
+
+  cont.innerHTML = list.slice().sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0)).map(u => {
+    const isMe = state.user && state.user.id === u.id;
+    const ini = u.name.charAt(0).toUpperCase();
+    return `<div class="adm-item" style="${isMe ? 'border-color:var(--purple);' : ''}${u.banned ? 'opacity:.6;' : ''}">
+      <div class="adm-thumb" style="background:${u.isVip ? 'var(--grad-gold)' : 'var(--grad)'};color:${u.isVip ? '#422006' : '#fff'};font-weight:900;font-size:1.3rem;border-radius:50%;width:50px;height:50px">
+        ${u.isVip ? '<i class="fas fa-crown"></i>' : ini}
+      </div>
+      <div class="adm-info">
+        <h4>${u.name} ${u.isVip ? '<span style="background:var(--gold);color:#422006;font-size:.6rem;padding:2px 7px;border-radius:10px;font-weight:800;margin-left:6px">VIP</span>' : ''} ${u.banned ? '<span style="background:var(--red);color:#fff;font-size:.6rem;padding:2px 7px;border-radius:10px;font-weight:800;margin-left:6px">BAN</span>' : ''} ${isMe ? '<span style="background:var(--purple);color:#fff;font-size:.6rem;padding:2px 7px;border-radius:10px;font-weight:800;margin-left:6px">SIZ</span>' : ''}</h4>
+        <p>📧 ${u.email} • @${u.username}</p>
+        <p style="margin-top:3px;font-size:.68rem">❤️ ${(u.favorites || []).length} • 📺 ${(u.history || []).length}</p>
+      </div>
+      ${!isMe ? `<div class="adm-acts">
+        <button class="adm-btn ${u.banned ? 'unban' : 'ban'}" data-ban="${u.id}" title="${u.banned ? 'Bandan chiqarish' : 'Ban qilish'}"><i class="fas fa-${u.banned ? 'check' : 'ban'}"></i></button>
+        <button class="adm-btn del" data-userdel="${u.id}" title="O'chirish"><i class="fas fa-trash"></i></button>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+
+  cont.querySelectorAll('[data-ban]').forEach(b => b.onclick = () => {
+    const users = auth.users();
+    const i = users.findIndex(u => u.id === b.dataset.ban);
+    if(i === -1) return;
+    users[i].banned = !users[i].banned;
+    auth.saveUsers(users);
+    renderAdmUsers();
+    toast(users[i].banned ? 'Ban qilindi 🚫' : 'Bandan chiqarildi ✅', users[i].banned ? 'error' : '');
+  });
+
+  cont.querySelectorAll('[data-userdel]').forEach(b => b.onclick = () => {
+    const u = auth.users().find(x => x.id === b.dataset.userdel);
+    if(!u) return;
+    confirmDlg('O\'chirish', `"${u.name}" ni o'chirasizmi?`, () => {
+      auth.del(u.id);
+      renderAdmUsers();
+      toast('O\'chirildi 🗑️', 'error');
+    });
+  });
+}
+$('userSearch').addEventListener('input', renderAdmUsers);
+
+/* Stats */
+function updateStats(){
+  const a = getAnime();
+  const u = auth.users();
+  $('dataStats').innerHTML = `
+    <div>📺 Animelar: <b>${a.length}</b> ta (${a.filter(x => !x.parentId).length} asosiy, ${a.filter(x => x.parentId).length} bo'lim)</div>
+    <div>👥 Foydalanuvchilar: <b>${u.length}</b> ta</div>
+    <div>👑 VIP: <b>${u.filter(x => x.isVip).length}</b> ta</div>
+    <div>💾 Saqlash hajmi: <b>~${(JSON.stringify(localStorage).length / 1024).toFixed(1)} KB</b></div>`;
+}
+
+/* Import/Export */
+$('exportBtn').onclick = () => {
+  const data = { anime: getAnime(), users: auth.users(), exportTime: Date.now() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'animeverse-backup-' + Date.now() + '.json'; a.click();
+  toast('✅ Export qilindi!', 'gold');
+};
+$('exportUsersBtn').onclick = () => {
+  const users = auth.users().map(u => ({ ...u, password: '***' }));
+  const blob = new Blob([JSON.stringify(users, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'users-' + Date.now() + '.json'; a.click();
+  toast('✅ Export qilindi!', 'gold');
+};
+$('importFile').addEventListener('change', e => {
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if(data.anime){ saveAnime(data.anime); animeData = getAnime(); }
+      if(data.users) auth.saveUsers(data.users);
+      renderAnime(); renderAdmList(); fillParentSel(); initFilters(); renderAdmUsers(); updateStats();
+      toast('✅ Import muvaffaqiyatli!', 'gold');
+    } catch(err){ toast('Xato fayl!', 'error'); }
+  };
+  r.readAsText(f);
+});
+$('resetAllBtn').onclick = () => {
+  confirmDlg('Barchasini o\'chirish', 'Barcha anime va foydalanuvchilar o\'chiriladi. Davom?', () => {
+    localStorage.removeItem('av_anime');
+    localStorage.removeItem('av_users');
+    auth.clear();
+    state.user = null;
+    loadUser();
+    mainApp.classList.add('hidden');
+    authScreen.classList.add('show');
+    $$('.auth-tab')[0].click();
+    toast('Hammasi o\'chirildi', 'error');
+  });
+};
+
+/* ========== PROFILE MENU ========== */
+$('profileBtn').onclick = e => { e.stopPropagation(); $('profileDropdown').classList.toggle('open'); };
+document.addEventListener('click', e => { if(!e.target.closest('.profile')) $('profileDropdown').classList.remove('open'); });
+
+function updateProfileUI(){
+  if(!state.user) return;
+  const ini = state.user.name.charAt(0).toUpperCase();
+  $('avatarSmall').innerHTML = state.user.avatar ? `<img src="${state.user.avatar}">` : ini;
+  $('avatarBig').innerHTML = state.user.avatar ? `<img src="${state.user.avatar}">` : ini;
+  $('nameSmall').textContent = state.user.name.split(' ')[0];
+  $('nameBig').textContent = state.user.name;
+}
+
+/* ========== HISTORY / FAV / WATCHLIST ========== */
+function renderHistory(){
+  const l = $('historyList');
+  if(!state.hist.length){ l.innerHTML = '<div class="empty"><i class="fas fa-history"></i><p>Bo\'sh</p></div>'; return; }
+  l.innerHTML = state.hist.slice(0, 30).map(h => {
+    const a = animeData.find(x => x.id === h.id); if(!a) return '';
+    const dt = new Date(h.time);
+    return `<div class="list-item" data-h="${a.id}" data-ep="${h.episode}">
+      <div class="ic ${a.bg}">${a.image ? `<img src="${a.image}">` : `<i class="fas ${a.icon || 'fa-film'}"></i>`}</div>
+      <div class="info">
+        <h4>${a.title}</h4>
+        <p>${h.episode}-qism • ${dt.toLocaleDateString('uz-UZ')} ${dt.toLocaleTimeString('uz-UZ', {hour:'2-digit',minute:'2-digit'})}</p>
+      </div>
+      <i class="fas fa-play" style="color:var(--purple)"></i>
+    </div>`;
+  }).join('');
+  l.querySelectorAll('[data-h]').forEach(el => el.onclick = () => { closeModal('history'); playAnime(+el.dataset.h, +el.dataset.ep); });
+}
+
+function renderFav(){
+  const l = $('favList');
+  if(!state.fav.length){ l.innerHTML = '<div class="empty"><i class="fas fa-heart-broken"></i><p>Bo\'sh</p></div>'; return; }
+  l.innerHTML = state.fav.map(id => {
+    const a = animeData.find(x => x.id === id); if(!a) return '';
+    return `<div class="list-item" data-f="${a.id}">
+      <div class="ic ${a.bg}">${a.image ? `<img src="${a.image}">` : `<i class="fas ${a.icon || 'fa-film'}"></i>`}</div>
+      <div class="info"><h4>${a.title}</h4><p>⭐ ${a.rating} • ${a.year}</p></div>
+    </div>`;
+  }).join('');
+  l.querySelectorAll('[data-f]').forEach(el => el.onclick = () => { closeModal('fav'); openDetail(+el.dataset.f); });
+}
+
+function renderWatch(){
+  const l = $('watchlistList');
+  if(!state.watch.length){ l.innerHTML = '<div class="empty"><i class="fas fa-bookmark"></i><p>Bo\'sh</p></div>'; return; }
+  l.innerHTML = state.watch.map(id => {
+    const a = animeData.find(x => x.id === id); if(!a) return '';
+    return `<div class="list-item" data-w="${a.id}">
+      <div class="ic ${a.bg}">${a.image ? `<img src="${a.image}">` : `<i class="fas ${a.icon || 'fa-film'}"></i>`}</div>
+      <div class="info"><h4>${a.title}</h4><p>⭐ ${a.rating} • ${a.year}</p></div>
+    </div>`;
+  }).join('');
+  l.querySelectorAll('[data-w]').forEach(el => el.onclick = () => { closeModal('watchlist'); openDetail(+el.dataset.w); });
+}
+
+/* ========== SETTINGS ========== */
+const THEMES = [
+  { id:'default', c1:'#a855f7', c2:'#ec4899' },
+  { id:'theme-blue', c1:'#3b82f6', c2:'#06b6d4' },
+  { id:'theme-green', c1:'#10b981', c2:'#059669' },
+  { id:'theme-pink', c1:'#ec4899', c2:'#f43f5e' },
+  { id:'theme-orange', c1:'#f97316', c2:'#ef4444' },
+  { id:'theme-cyan', c1:'#06b6d4', c2:'#0891b2' }
+];
+
+function renderThemePicker(){
+  const cur = localStorage.getItem('av_themeColor') || 'default';
+  $('themePicker').innerHTML = THEMES.map(t => `<div class="tdot ${cur === t.id ? 'active' : ''}" data-t="${t.id}" style="background:linear-gradient(135deg,${t.c1},${t.c2})"></div>`).join('');
+  $$('#themePicker .tdot').forEach(d => d.onclick = () => {
+    document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('theme-') && c !== 'light').join(' ');
+    if(d.dataset.t !== 'default') document.body.classList.add(d.dataset.t);
+    if(localStorage.getItem('av_theme') === 'light') document.body.classList.add('light');
+    localStorage.setItem('av_themeColor', d.dataset.t);
+    renderThemePicker();
+    toast('Rang: ' + d.dataset.t.replace('theme-', ''), 'gold');
+  });
+}
+
+$('setTheme').onchange = () => { $('themeBtn').click(); };
+$('setNotif').onchange = e => toast(e.target.checked ? 'Bildirishnomalar yoqildi 🔔' : 'O\'chirildi 🔕');
+$('setSkipOP').onchange = e => { localStorage.setItem('av_skipOP', e.target.checked); toast(e.target.checked ? 'OP tugmasi yoqildi' : 'O\'chirildi'); };
+
+/* ========== TIME & WEATHER ========== */
+function updateTime(){
+  const n = new Date();
+  $('timeValue').textContent = n.toLocaleTimeString('uz-UZ', { hour12: false });
+  $('dateValue').textContent = n.toLocaleDateString('uz-UZ', { year:'numeric', month:'2-digit', day:'2-digit', weekday:'short' });
+}
+setInterval(updateTime, 1000);
+
+async function fetchWeather(){
+  try {
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=41.2995&longitude=69.2401&current_weather=true&timezone=Asia%2FTashkent');
+    const d = await r.json();
+    const c = d.current_weather;
+    $('weatherTemp').textContent = Math.round(c.temperature) + '°C';
+    let desc = 'Bulutli', ic = 'fa-cloud';
+    const code = c.weathercode;
+    if(code === 0){ desc = 'Quyoshli'; ic = 'fa-sun'; }
+    else if(code <= 3){ desc = 'Bulutli'; ic = 'fa-cloud-sun'; }
+    else if(code <= 48){ desc = 'Tuman'; ic = 'fa-smog'; }
+    else if(code <= 67){ desc = 'Yomg\'ir'; ic = 'fa-cloud-rain'; }
+    else if(code <= 77){ desc = 'Qor'; ic = 'fa-snowflake'; }
+    else if(code <= 82){ desc = 'Jala'; ic = 'fa-cloud-showers-heavy'; }
+    else if(code >= 95){ desc = 'Momaqaldiroq'; ic = 'fa-cloud-bolt'; }
+    $('weatherDesc').textContent = desc + ' • ' + Math.round(c.windspeed) + ' km/s';
+    $('weatherIcon').className = 'fas ' + ic;
+  } catch(e){ $('weatherTemp').textContent = '--°C'; $('weatherDesc').textContent = 'Xatolik'; }
+}
+
+/* ========== FILTERS INIT ========== */
+function initFilters(){
+  const genres = new Set(), years = new Set();
+  getAnime().forEach(a => { (a.genres || []).forEach(g => genres.add(g)); years.add(a.year); });
+  $('filterGenre').innerHTML = '<option value="">Barchasi</option>' + [...genres].sort().map(g => `<option value="${g}">${g}</option>`).join('');
+  $('filterYear').innerHTML = '<option value="">Barchasi</option>' + [...years].sort((a,b) => b-a).map(y => `<option value="${y}">${y}</option>`).join('');
+  ['filterGenre','filterYear','filterRating','filterStatus','filterSort'].forEach(id => {
+    const el = $(id);
+    if(!el._bound){ el._bound = true; el.addEventListener('change', renderAnime); }
+  });
+}
+
+/* ========== INIT ========== */
+let initialized = false;
+
+function initApp(){
+  animeData = getAnime();
+  loadUser();
+  updateProfileUI();
+  updateVipUI();
+  updateCounts();
+  renderVipPlans();
+  renderAnime();
+  initFilters();
+  updateTime();
+  fetchWeather();
+  renderHero();
+  updateContinue();
+
+  if(localStorage.getItem('av_theme') === 'light') document.body.classList.add('light');
+  const tc = localStorage.getItem('av_themeColor');
+  if(tc && tc !== 'default') document.body.classList.add(tc);
+  renderThemePicker();
+  $('themeIcon').className = document.body.classList.contains('light') ? 'fas fa-sun' : 'fas fa-moon';
+
+  if(initialized) return;
+  initialized = true;
+
+  // Brand
+  $('brandBtn').onclick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    state.filter = 'all'; state.search = '';
+    $('searchInput').value = '';
+    $$('.ftab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.ftab[data-filter="all"]').classList.add('active');
+    renderAnime();
+  };
+
+  // Search
+  $('searchInput').addEventListener('input', e => { state.search = e.target.value; renderAnime(); });
+
+  // Filter tabs
+  $$('.ftab').forEach(t => {
+    t.onclick = () => {
+      $$('.ftab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      state.filter = t.dataset.filter;
+      state.search = '';
+      $('searchInput').value = '';
+      renderAnime();
+    };
+  });
+
+  // Theme
+  $('themeBtn').onclick = () => {
+    document.body.classList.toggle('light');
+    const il = document.body.classList.contains('light');
+    $('themeIcon').className = il ? 'fas fa-sun' : 'fas fa-moon';
+    localStorage.setItem('av_theme', il ? 'light' : 'dark');
+    $('setTheme').checked = il;
+    toast(il ? '☀️ Yorug\' rejim' : '🌙 Tungi rejim');
+  };
+
+  // Notifications
+  $('notifBtn').onclick = () => {
+    $('notifDot').classList.add('hidden');
+    toast('🎬 Yangi epizodlar qo\'shildi!');
+  };
+
+  // Menu
+  $('menuVipBtn').onclick = () => { $('profileDropdown').classList.remove('open'); openVip(); };
+  $('menuAdminBtn').onclick = () => { $('profileDropdown').classList.remove('open'); openAdmin(); };
+  $('menuProfileBtn').onclick = () => {
+    $('profileDropdown').classList.remove('open');
+    const ini = state.user.name.charAt(0).toUpperCase();
+    $('profileBigAvatar').innerHTML = state.user.avatar ? `<img src="${state.user.avatar}" style="width:100%;height:100%;object-fit:cover">` : ini;
+    $('profileName').textContent = state.user.name;
+    $('profileUser').textContent = '@' + state.user.username;
+    $('statWatched').textContent = state.hist.length;
+    $('statFav').textContent = state.fav.length;
+    $('statWatch').textContent = state.watch.length;
+    openModal('profile');
+  };
+  $('menuFavBtn').onclick = () => { $('profileDropdown').classList.remove('open'); renderFav(); openModal('fav'); };
+  $('menuHistoryBtn').onclick = () => { $('profileDropdown').classList.remove('open'); renderHistory(); openModal('history'); };
+  $('menuWatchlistBtn').onclick = () => { $('profileDropdown').classList.remove('open'); renderWatch(); openModal('watchlist'); };
+  $('menuSettingsBtn').onclick = () => {
+    $('profileDropdown').classList.remove('open');
+    $('setTheme').checked = document.body.classList.contains('light');
+    $('setSkipOP').checked = localStorage.getItem('av_skipOP') !== 'false';
+    openModal('settings');
+  };
+  $('menuLogoutBtn').onclick = () => { $('profileDropdown').classList.remove('open'); logout(); };
+
+  // Main tabs
+  $$('.mtab').forEach(t => {
+    t.onclick = () => {
+      const tab = t.dataset.tab;
+      if(tab === 'random'){
+        const r = getAnime()[Math.floor(Math.random() * getAnime().length)];
+        if(r) openDetail(r.id);
+        return;
+      }
+      $$('.mtab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      if(tab === 'trending'){ state.filter = 'all'; state.search = ''; $('searchInput').value = ''; renderAnime(); document.getElementById('sectionTitleText').textContent = 'Trendda 🔥'; }
+      else if(tab === 'new'){ state.filter = 'all'; state.search = ''; $('searchInput').value = ''; renderAnime(); setTimeout(() => { const list = getAnime().filter(a => !a.parentId).sort((a,b) => b.year - a.year); renderCustomList(list, 'Yangi animelar ✨'); }, 50); }
+      else renderAnime();
+    };
+  });
+}
+
+function renderCustomList(list, title){
+  const grid = $('animeGrid');
+  grid.innerHTML = '';
+  $('sectionTitleText').textContent = title;
+  // Reuse the same card rendering from renderAnime for consistency
+  state.search = '';
+  // Just re-render anime
+  renderAnime();
+  $('sectionTitleText').textContent = title;
+}
+
+/* ========== BOOT ========== */
+(function boot(){
+  const st = localStorage.getItem('av_theme') || 'dark';
+  if(st === 'light') document.body.classList.add('light');
+  const tc = localStorage.getItem('av_themeColor');
+  if(tc && tc !== 'default') document.body.classList.add(tc);
+
+  const u = auth.current();
+  if(u){
+    if(u.banned){ authScreen.classList.add('show'); return; }
+    state.user = u;
+    loadUser();
+    authScreen.classList.remove('show');
+    mainApp.classList.remove('hidden');
+    initApp();
+    setTimeout(() => toast(`Xush kelibsiz, ${u.name.split(' ')[0]}! 👋`), 600);
+  }
+})();
+
+console.log('%c🎬 AnimeVerse Ultra Pro Max', 'font-size:20px;font-weight:bold;background:linear-gradient(135deg,#a855f7,#ec4899);-webkit-background-clip:text;color:transparent');
+console.log('%c🔐 Admin parol: Maxa1440', 'font-size:14px;color:#fbbf24;font-weight:bold');
+</script>
+</body>
+</html>
